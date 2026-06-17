@@ -22,17 +22,10 @@ Créer ces secrets :
 - `FTP_PASSWORD` : mot de passe FTP/FTPS ;
 - `FTP_PORT` : port FTPS, souvent `21` en FTPS explicite ;
 - `FTP_SERVER_DIR` : dossier distant de publication, par exemple `./` ou le dossier du sous-domaine.
-- `PROD_SITE_URL` : URL publique du site, par exemple `https://votre-domaine.fr` ;
-- `PROD_ADMIN_URL` : URL du panel, par exemple `https://votre-domaine.fr/admin` ;
-- `PROD_DB_HOST` : hote de la base de donnees ;
-- `PROD_DB_PORT` : port de la base de donnees, souvent `3306` ;
-- `PROD_DB_NAME` : nom de la base de donnees ;
-- `PROD_DB_USER` : utilisateur de la base de donnees ;
-- `PROD_DB_PASS` : mot de passe de la base de donnees ;
-- `PROD_PASSWORD_SALT` : longue chaine aleatoire pour securiser les mots de passe ;
-- `PROD_UPLOAD_URL` : URL publique des uploads, par exemple `https://votre-domaine.fr/assets/uploads`.
 
-Le fichier `.env` de production est genere par GitHub Actions pendant le deploiement et ne doit pas etre committe.
+Le fichier `.env` de production ne doit pas etre committe. Il doit etre cree puis uploade une fois sur le serveur IONOS, dans le meme dossier que `index.html`.
+
+Le workflow GitHub Actions exclut volontairement `.env` pour ne jamais ecraser la configuration de production.
 
 ## Premier push
 
