@@ -86,6 +86,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create production environment file
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > .env <<'EOF'
+          SITE_URL=${{ secrets.PROD_SITE_URL }}
+          ADMIN_URL=${{ secrets.PROD_ADMIN_URL }}
+
+          DB_HOST=${{ secrets.PROD_DB_HOST }}
+          DB_PORT=${{ secrets.PROD_DB_PORT }}
+          DB_NAME=${{ secrets.PROD_DB_NAME }}
+          DB_USER=${{ secrets.PROD_DB_USER }}
+          DB_PASS=${{ secrets.PROD_DB_PASS }}
+          DB_CHARSET=utf8mb4
+
+          ENVIRONMENT=production
+          DEBUG_MODE=false
+          APP_TIMEZONE=Europe/Paris
+
+          PASSWORD_SALT=${{ secrets.PROD_PASSWORD_SALT }}
+          SESSION_LIFETIME=7200
+
+          UPLOAD_URL=${{ secrets.PROD_UPLOAD_URL }}
+          MAX_UPLOAD_SIZE=5242880
+          ALLOWED_EXTENSIONS=jpg,jpeg,png,gif,webp,avif,pdf
+          EOF
+
       - name: Upload files by FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -101,7 +128,6 @@ jobs:
             **/.git*/**
             **/.github/**
             **/node_modules/**
-            .env
             .env.*
             .env.example
             env_IONOS.txt
