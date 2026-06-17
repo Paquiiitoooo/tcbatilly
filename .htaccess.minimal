@@ -1,0 +1,25 @@
+# ============================================
+# .htaccess MINIMAL pour IONOS
+# ============================================
+# Utilisez ce fichier si le .htaccess complet cause une erreur 500
+# Renommez-le en .htaccess et testez
+
+# Activer le moteur de réécriture
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Si sous-dossier, décommentez :
+    # RewriteBase /tcb/
+    RewriteBase /
+</IfModule>
+
+# Protection du fichier .env
+<FilesMatch "^\.env$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+

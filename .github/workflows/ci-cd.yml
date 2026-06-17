@@ -1,0 +1,111 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Validate project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_mysql, mbstring, json
+          coverage: none
+
+      - name: Lint PHP files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' files < <(find . -type f -name '*.php' -not -path './vendor/*' -print0)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No PHP files found."
+            exit 0
+          fi
+          for file in "${files[@]}"; do
+            php -l "$file"
+          done
+
+      - name: Validate JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          failed = False
+          for path in Path(".").rglob("*.json"):
+              if ".git" in path.parts:
+                  continue
+              try:
+                  json.loads(path.read_text(encoding="utf-8"))
+              except Exception as exc:
+                  print(f"{path}: {exc}")
+                  failed = True
+          raise SystemExit(1 if failed else 0)
+          PY
+
+      - name: Check required web files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f .htaccess
+          test -f backend/config/config.php
+          test -f backend/config/database.php
+          test -f backend/database/schema.sql
+
+  deploy:
+    name: Deploy to IONOS
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload files by FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            .env
+            .env.*
+            .env.example
+            env_IONOS.txt
+            DEPANNAGE_ERREUR_500.md
+            README.md
+            backend/README.md
+            admin/README.md

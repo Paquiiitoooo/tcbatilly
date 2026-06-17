@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Tournoi Interne d'Automne",
+      "date": "2024-11-14",
+      "day": "14",
+      "month": "Nov",
+      "description": "Compétition amicale ouverte à tous les membres. Inscription gratuite, lots à gagner !",
+      "category": "tournoi"
+    },
+    {
+      "id": 2,
+      "title": "Stage Jeunes - Vacances de Noël",
+      "date": "2024-12-20",
+      "day": "20-31",
+      "month": "Déc",
+      "description": "2 semaines d'entraînement intensif pour progresser pendant les vacances (8-16 ans)",
+      "category": "stage"
+    },
+    {
+      "id": 3,
+      "title": "Tournoi Inter-Clubs",
+      "date": "2025-02-15",
+      "day": "15",
+      "month": "Fév",
+      "description": "Le TC Batilly reçoit 3 clubs de la région pour une journée de compétition conviviale",
+      "category": "tournoi"
+    },
+    {
+      "id": 4,
+      "title": "Soirée de Clôture de Saison",
+      "date": "2025-06-21",
+      "day": "21",
+      "month": "Juin",
+      "description": "Grande fête de fin d'année avec tournoi, barbecue et remise des prix. Ouvert à tous !",
+      "category": "evenement"
+    }
+  ]
+}
+

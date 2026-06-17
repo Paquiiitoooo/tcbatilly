@@ -1,0 +1,60 @@
+# ============================================
+# TC BATILLY - Fichiers à ignorer par Git
+# ============================================
+
+# Fichiers de configuration sensibles
+.env
+.env.local
+.env.production
+.env.development
+env_IONOS.txt
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*.old
+*.tmp
+*.log
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+error_log
+access_log
+
+# Uploads (optionnel - à garder si vous voulez versionner les images)
+# assets/uploads/
+
+# Base de données (fichiers SQL locaux)
+*.sql
+!backend/database/schema.sql
+!backend/database/migration_*.sql
+
+# Fichiers temporaires PHP
+*.cache
+php_errors.log
+
+# Node modules (si vous utilisez npm)
+node_modules/
+package-lock.json
+
+# Fichiers de compression
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
