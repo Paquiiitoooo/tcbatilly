@@ -815,7 +815,7 @@ async function loadNews() {
                 
                 article.innerHTML = `
                     <div class="news-date">${formattedDate}</div>
-                    <h4>${news.emoji || '📰'} ${news.title}</h4>
+                    <h4>${news.title}</h4>
                     <p>${news.content}</p>
                 `;
                 
@@ -1238,4 +1238,3 @@ console.log('✓ Interactions configurées');
 console.log('✓ Événements chargés depuis JSON');
 console.log('✓ Carousel de photos initialisé (auto-rotation 4s)');
 console.log('✓ Bouton cookies activé');
-

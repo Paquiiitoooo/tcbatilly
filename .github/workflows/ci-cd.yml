@@ -101,6 +101,7 @@ jobs:
             **/.git*/**
             **/.github/**
             **/node_modules/**
+            assets/uploads/**
             .env
             .env.*
             .env.example
