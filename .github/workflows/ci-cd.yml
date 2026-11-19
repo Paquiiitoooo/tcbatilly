@@ -97,12 +97,13 @@ jobs:
         run: |
           echo "Longueurs des secrets (attendu: serveur 13, port 2, utilisateur 25, dossier 10)"
           echo "FTP_SERVER=${#FTP_SERVER} FTP_PORT=${#FTP_PORT} FTP_USERNAME=${#FTP_USERNAME} FTP_SERVER_DIR=${#FTP_SERVER_DIR}"
-          if timeout 15 bash -c "exec 3<>/dev/tcp/${FTP_SERVER}/${FTP_PORT}"; then
-            echo "TCP: connexion au port OK"
-          else
-            echo "TCP: connexion impossible depuis GitHub (pare-feu ou mauvaise valeur)"
-          fi
-          timeout 25 curl -sv --max-time 20 "ftp://${FTP_SERVER}:${FTP_PORT}/" -o /dev/null 2>&1 | head -15 || true
+          for port in 21 22 80 443 8443; do
+            if timeout 8 bash -c "exec 3<>/dev/tcp/${FTP_SERVER}/${port}"; then
+              echo "Port ${port}: OUVERT depuis GitHub"
+            else
+              echo "Port ${port}: BLOQUE depuis GitHub"
+            fi
+          done
 
       - name: Upload files by FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
