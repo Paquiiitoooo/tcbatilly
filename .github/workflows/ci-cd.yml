@@ -86,49 +86,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Diagnose FTP connectivity
-        continue-on-error: true
+      - name: Configure SSH
         shell: bash
         env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_PORT: ${{ secrets.FTP_PORT }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.FTP_SERVER }}
         run: |
-          echo "Longueurs des secrets (attendu: serveur 13, port 2, utilisateur 25, dossier 10)"
-          echo "FTP_SERVER=${#FTP_SERVER} FTP_PORT=${#FTP_PORT} FTP_USERNAME=${#FTP_USERNAME} FTP_SERVER_DIR=${#FTP_SERVER_DIR}"
-          for port in 21 22 80 443 8443; do
-            if timeout 8 bash -c "exec 3<>/dev/tcp/${FTP_SERVER}/${port}"; then
-              echo "Port ${port}: OUVERT depuis GitHub"
-            else
-              echo "Port ${port}: BLOQUE depuis GitHub"
-            fi
-          done
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
-      - name: Upload files by FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: ${{ secrets.FTP_PORT }}
-          timeout: 120000
-          log-level: verbose
-          local-dir: ./
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/node_modules/**
-            assets/uploads/**
-            .env
-            .env.*
-            .env.example
-            **/*.zip
-            env_IONOS.txt
-            DEPANNAGE_ERREUR_500.md
-            README.md
-            backend/README.md
-            admin/README.md
+      - name: Deploy files by rsync over SSH
+        shell: bash
+        env:
+          SSH_HOST: ${{ secrets.FTP_SERVER }}
+          SSH_USER: ${{ secrets.FTP_USERNAME }}
+        run: |
+          set -euo pipefail
+          rsync -rlvz --checksum --no-perms --no-owner --no-group --omit-dir-times \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o ConnectTimeout=20" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.claude' \
+            --exclude='node_modules' \
+            --exclude='/.env' \
+            --exclude='/.env.*' \
+            --exclude='/assets/uploads/' \
+            --exclude='*.zip' \
+            --exclude='/env_IONOS.txt' \
+            --exclude='/DEPANNAGE_ERREUR_500.md' \
+            --exclude='/README.md' \
+            --exclude='/backend/README.md' \
+            --exclude='/admin/README.md' \
+            ./ "${SSH_USER}@${SSH_HOST}:httpdocs/"
