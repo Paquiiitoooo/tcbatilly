@@ -78,12 +78,12 @@ include 'includes/header.php';
         ?>
         <button type="button" class="view-tab" id="tab-news-list" role="tab"
                 aria-controls="panel-news-list" aria-selected="<?php echo $list_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true">🗂️</span>
+            <span aria-hidden="true"><?php echo admin_icon('news', 18); ?></span>
             <span>Actualités publiées</span>
         </button>
         <button type="button" class="view-tab" id="tab-news-form" role="tab"
                 aria-controls="panel-news-form" aria-selected="<?php echo $form_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true"><?php echo $editing ? '✏️' : '➕'; ?></span>
+            <span aria-hidden="true"><?php echo $editing ? admin_icon('edit', 18) : admin_icon('plus', 18); ?></span>
             <span><?php echo $editing ? 'Modifier' : 'Ajouter'; ?> une actualité</span>
         </button>
     </div>
@@ -100,7 +100,7 @@ include 'includes/header.php';
                     Liste des actualités <span class="badge badge-info"><?php echo count($news_list); ?></span>
                 </h2>
                 <a class="btn-secondary" href="news.php?action=create" data-switch-tab="tab-news-form">
-                    ➕ Nouvelle actualité
+                    <?php echo admin_icon('plus', 16); ?><span>Nouvelle actualité</span>
                 </a>
             </header>
 
@@ -146,14 +146,14 @@ include 'includes/header.php';
                                     <td>
                                         <div style="display:flex;flex-wrap:wrap;gap:8px;">
                                             <a href="news.php?edit=<?php echo $news['id']; ?>" class="btn-secondary" data-switch-tab="tab-news-form">
-                                                ✏️ Modifier
+                                                <?php echo admin_icon('edit', 15); ?><span>Modifier</span>
                                             </a>
                                             <form method="POST">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="id" value="<?php echo $news['id']; ?>">
                                                 <button type="submit" class="btn-danger"
                                                         data-confirm-delete="Êtes-vous sûr de vouloir supprimer cette actualité ?">
-                                                    🗑️ Supprimer
+                                                    <?php echo admin_icon('trash', 15); ?><span>Supprimer</span>
                                                 </button>
                                             </form>
                                         </div>
@@ -177,7 +177,7 @@ include 'includes/header.php';
                     <?php echo $editing ? 'Modifier une actualité' : 'Ajouter une actualité'; ?>
                 </h2>
                 <?php if ($editing): ?>
-                    <a href="news.php" class="btn-ghost" data-switch-tab="tab-news-list">↩️ Retour à la liste</a>
+                    <a href="news.php" class="btn-ghost" data-switch-tab="tab-news-list"><?php echo admin_icon('arrow-left', 16); ?><span>Retour à la liste</span></a>
                 <?php endif; ?>
             </header>
 

@@ -2,14 +2,14 @@
 /**
  * TC BATILLY - Calendrier Admin
  */
-require_once '../config/config.php';
-require_once '../config/database.php';
+require_once '../backend/config/config.php';
+require_once '../backend/config/database.php';
 
 require_login();
 
 $db = get_db();
 $page_title = 'Calendrier';
-$page_description = 'Gérer le calendrier des événements du club';
+$page_description = 'Visualiser le calendrier des événements du club';
 
 // Récupérer tous les événements
 $stmt = $db->query("SELECT * FROM events ORDER BY event_date ASC");
@@ -36,16 +36,6 @@ include 'includes/header.php';
 ?>
 
 <div class="content-section">
-    <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-        Calendrier des événements
-    </h2>
-
     <!-- Tabs pour Sportif / Associatif -->
     <div class="calendar-tabs">
         <button class="calendar-tab active" data-tab="all">Tous les événements</button>
@@ -56,13 +46,13 @@ include 'includes/header.php';
     <!-- Calendrier -->
     <div class="calendar-container">
         <div class="calendar-header">
-            <button class="calendar-nav-btn" id="prevMonth">
+            <button class="calendar-nav-btn" id="prevMonth" aria-label="Mois précédent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
             <h3 id="currentMonthYear"></h3>
-            <button class="calendar-nav-btn" id="nextMonth">
+            <button class="calendar-nav-btn" id="nextMonth" aria-label="Mois suivant">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
@@ -85,33 +75,34 @@ include 'includes/header.php';
 
 .calendar-tab {
     padding: 10px 20px;
-    border: 2px solid var(--border);
-    background: white;
-    border-radius: 8px;
+    border: 2px solid var(--border-strong);
+    background: var(--surface-strong);
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
-    transition: all 0.3s ease;
-    color: var(--text-muted);
+    transition: all var(--transition);
+    color: var(--ink-muted);
 }
 
 .calendar-tab:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--brand);
+    color: var(--brand);
 }
 
 .calendar-tab.active {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, var(--brand) 0%, var(--accent) 100%);
     color: white;
     border-color: transparent;
 }
 
 .calendar-container {
-    background: white;
-    border-radius: 12px;
+    background: var(--surface-strong);
+    border-radius: var(--radius-md);
     padding: 20px;
     margin-bottom: 24px;
     border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
 }
 
 .calendar-header {
@@ -124,28 +115,28 @@ include 'includes/header.php';
 .calendar-header h3 {
     font-size: 20px;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--ink);
     text-transform: capitalize;
 }
 
 .calendar-nav-btn {
     width: 40px;
     height: 40px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: white;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--surface-strong);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    color: var(--text);
+    transition: all var(--transition);
+    color: var(--ink);
 }
 
 .calendar-nav-btn:hover {
-    background: var(--light);
-    border-color: var(--primary);
-    color: var(--primary);
+    background: var(--canvas);
+    border-color: var(--brand);
+    color: var(--brand);
 }
 
 .calendar-grid {
@@ -158,18 +149,18 @@ include 'includes/header.php';
     text-align: center;
     font-weight: 600;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--ink-muted);
     padding: 8px;
     text-transform: uppercase;
 }
 
 .calendar-day {
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: white;
+    background: var(--surface-strong);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -178,18 +169,18 @@ include 'includes/header.php';
 }
 
 .calendar-day:hover {
-    background: var(--light);
-    border-color: var(--primary);
+    background: var(--canvas);
+    border-color: var(--brand);
 }
 
 .calendar-day.other-month {
     opacity: 0.3;
-    background: #f9fafb;
+    background: var(--canvas);
 }
 
 .calendar-day.today {
-    background: rgba(102, 126, 234, 0.1);
-    border-color: var(--primary);
+    background: rgba(209, 135, 90, 0.12);
+    border-color: var(--brand);
     font-weight: 700;
 }
 
@@ -218,19 +209,19 @@ include 'includes/header.php';
 }
 
 .calendar-event-dot.tournoi {
-    background: #ef4444;
+    background: var(--danger);
 }
 
 .calendar-event-dot.stage {
-    background: #3b82f6;
+    background: var(--info);
 }
 
 .calendar-event-dot.evenement {
-    background: #10b981;
+    background: var(--success);
 }
 
 .calendar-event-dot.autre {
-    background: #f59e0b;
+    background: var(--warning);
 }
 
 .calendar-events-list {
@@ -241,7 +232,7 @@ include 'includes/header.php';
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 16px;
-    color: var(--dark);
+    color: var(--ink);
 }
 
 .event-list-item {
@@ -249,25 +240,25 @@ include 'includes/header.php';
     align-items: center;
     gap: 16px;
     padding: 16px;
-    background: var(--light);
-    border-radius: 12px;
+    background: var(--canvas);
+    border-radius: var(--radius-md);
     margin-bottom: 12px;
     border: 1px solid var(--border);
-    transition: all 0.3s ease;
+    transition: all var(--transition);
 }
 
 .event-list-item:hover {
-    background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-sm);
 }
 
 .event-list-date {
     min-width: 60px;
     text-align: center;
     padding: 12px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, var(--brand) 0%, var(--accent) 100%);
     color: white;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     font-weight: 700;
 }
 
@@ -290,12 +281,12 @@ include 'includes/header.php';
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 4px;
-    color: var(--dark);
+    color: var(--ink);
 }
 
 .event-list-content p {
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--ink-muted);
     margin: 0;
 }
 
@@ -409,6 +400,16 @@ let currentFilter = 'all';
 const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 const daysOfWeek = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 
+// Échapper le HTML pour éviter toute injection dans le rendu
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 // Initialiser le calendrier
 function initCalendar() {
     renderCalendar();
@@ -421,7 +422,7 @@ function filterEvents(filter) {
     currentFilter = filter;
     renderCalendar();
     renderEventsList();
-    
+
     // Mettre à jour les tabs
     document.querySelectorAll('.calendar-tab').forEach(tab => {
         tab.classList.remove('active');
@@ -436,18 +437,17 @@ function getFilteredEvents() {
     if (currentFilter === 'all') {
         return calendarEvents.filter(e => e.is_active);
     }
-    
-    // Pour l'instant, on utilise la catégorie pour distinguer
+
     // Les tournois et stages = sportif, les événements et autres = associatif
     const sportifCategories = ['tournoi', 'stage'];
     const associatifCategories = ['evenement', 'autre'];
-    
+
     if (currentFilter === 'sportif') {
         return calendarEvents.filter(e => e.is_active && sportifCategories.includes(e.category));
     } else if (currentFilter === 'associatif') {
         return calendarEvents.filter(e => e.is_active && associatifCategories.includes(e.category));
     }
-    
+
     return calendarEvents.filter(e => e.is_active);
 }
 
@@ -455,7 +455,7 @@ function getFilteredEvents() {
 function renderCalendar() {
     const grid = document.getElementById('calendarGrid');
     grid.innerHTML = '';
-    
+
     // En-têtes des jours
     daysOfWeek.forEach(day => {
         const header = document.createElement('div');
@@ -463,20 +463,20 @@ function renderCalendar() {
         header.textContent = day;
         grid.appendChild(header);
     });
-    
+
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
+
     // Premier jour du mois
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-    
+
     // Jours du mois précédent
     const prevMonth = new Date(year, month, 0);
     const daysInPrevMonth = prevMonth.getDate();
-    
+
     // Remplir les jours du mois précédent
     for (let i = startingDayOfWeek - 1; i >= 0; i--) {
         const day = document.createElement('div');
@@ -484,57 +484,57 @@ function renderCalendar() {
         day.innerHTML = `<div class="calendar-day-number">${daysInPrevMonth - i}</div>`;
         grid.appendChild(day);
     }
-    
+
     // Jours du mois actuel
     const filteredEvents = getFilteredEvents();
     const today = new Date();
-    
+
     for (let day = 1; day <= daysInMonth; day++) {
         const dayDate = new Date(year, month, day);
         const dayElement = document.createElement('div');
         dayElement.className = 'calendar-day';
-        
+
         // Vérifier si c'est aujourd'hui
         if (dayDate.toDateString() === today.toDateString()) {
             dayElement.classList.add('today');
         }
-        
+
         // Numéro du jour
         const dayNumber = document.createElement('div');
         dayNumber.className = 'calendar-day-number';
         dayNumber.textContent = day;
         dayElement.appendChild(dayNumber);
-        
+
         // Événements du jour
         const eventsContainer = document.createElement('div');
         eventsContainer.className = 'calendar-day-events';
-        
+
         const dayEvents = filteredEvents.filter(event => {
             const eventDate = new Date(event.date);
-            return eventDate.getDate() === day && 
-                   eventDate.getMonth() === month && 
+            return eventDate.getDate() === day &&
+                   eventDate.getMonth() === month &&
                    eventDate.getFullYear() === year;
         });
-        
+
         dayEvents.slice(0, 3).forEach(event => {
             const dot = document.createElement('div');
             dot.className = `calendar-event-dot ${event.category}`;
             dot.title = event.title;
             eventsContainer.appendChild(dot);
         });
-        
+
         if (dayEvents.length > 3) {
             const more = document.createElement('div');
             more.className = 'calendar-event-dot';
             more.textContent = `+${dayEvents.length - 3}`;
-            more.style.background = '#6b7280';
+            more.style.background = 'var(--ink-muted)';
             eventsContainer.appendChild(more);
         }
-        
+
         dayElement.appendChild(eventsContainer);
         grid.appendChild(dayElement);
     }
-    
+
     // Remplir les jours restants
     const totalCells = grid.children.length;
     const remainingCells = 42 - totalCells; // 6 semaines * 7 jours
@@ -552,37 +552,40 @@ function renderEventsList() {
     const filteredEvents = getFilteredEvents();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
+
     // Filtrer les événements du mois actuel
     const monthEvents = filteredEvents.filter(event => {
         const eventDate = new Date(event.date);
         return eventDate.getMonth() === month && eventDate.getFullYear() === year;
     }).sort((a, b) => new Date(a.date) - new Date(b.date));
-    
+
     if (monthEvents.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Aucun événement ce mois-ci</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--ink-muted); padding: 40px;">Aucun événement ce mois-ci</p>';
         return;
     }
-    
+
     container.innerHTML = '<h4>Événements du mois</h4>';
-    
+
     monthEvents.forEach(event => {
         const eventDate = new Date(event.date);
         const item = document.createElement('div');
         item.className = 'event-list-item';
-        
+
+        const category = escapeHtml(event.category);
+        const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
+
         item.innerHTML = `
             <div class="event-list-date">
                 <div class="day">${eventDate.getDate()}</div>
                 <div class="month">${months[eventDate.getMonth()].substring(0, 3)}</div>
             </div>
             <div class="event-list-content">
-                <h5>${event.title}</h5>
-                <p>${event.description}</p>
+                <h5>${escapeHtml(event.title)}</h5>
+                <p>${escapeHtml(event.description)}</p>
             </div>
-            <span class="event-list-badge ${event.category}">${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</span>
+            <span class="event-list-badge ${category}">${categoryLabel}</span>
         `;
-        
+
         container.appendChild(item);
     });
 }
@@ -616,4 +619,3 @@ initCalendar();
 </script>
 
 <?php include 'includes/footer.php'; ?>
-

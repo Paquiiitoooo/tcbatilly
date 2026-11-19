@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: production-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   ci:
@@ -104,6 +104,8 @@ jobs:
             .env
             .env.*
             .env.example
+            assets/uploads/**
+            **/*.zip
             env_IONOS.txt
             DEPANNAGE_ERREUR_500.md
             README.md

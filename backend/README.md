@@ -80,15 +80,16 @@ Ou importez via phpMyAdmin en utilisant le fichier `backend/database/schema.sql`
 1. Copiez le fichier d'exemple : `cp backend/config/env.dist .env`
 2. Éditez `.env` et renseignez vos valeurs :
    ```
-   SITE_URL=https://tcb.pacome-vantini.fr
-   ADMIN_URL=https://tcb.pacome-vantini.fr/admin
+   SITE_URL=https://tc-batilly.fr
+   ADMIN_URL=https://tc-batilly.fr/admin
 
-   DB_HOST=db5019001998.hosting-data.io
+   DB_HOST=localhost
    DB_PORT=3306
-   DB_NAME=dbs14962552
-   DB_USER=dbu405196
+   DB_NAME=tcb_bdd_site
+   DB_USER=tcb_admin_site
    DB_PASS=motdepasse
    ```
+   > Un modèle prêt à l'emploi pour la production se trouve dans `env_IONOS.txt` (racine).
    > Astuce : vous pouvez également utiliser une variable unique `DATABASE_URL=mysql://utilisateur:motdepasse@hote:port/base?charset=utf8mb4`
 3. Ajustez `ENVIRONMENT` (`development` ou `production`) et `DEBUG_MODE` selon votre contexte.
 
@@ -126,7 +127,7 @@ location /backend/api/ {
 ## 🚀 Déploiement sur IONOS (Plesk)
 
 1. **Préparer l'environnement**
-   - Créez le sous-domaine `tcb.pacome-vantini.fr` et activez HTTPS (Let's Encrypt)
+   - Pointez le domaine `tc-batilly.fr` vers le dossier web et activez HTTPS (Let's Encrypt)
    - Créez la base de données MySQL/MariaDB et un utilisateur dédié
 2. **Uploader l'application**
    - Déposez l'intégralité du projet dans le dossier web du sous-domaine (le `DocumentRoot` doit contenir `index.html`)
@@ -144,7 +145,7 @@ location /backend/api/ {
 
 ### Accès au panel d'administration
 
-1. Ouvrez votre navigateur : `http://localhost/TCBatilly/backend/admin/login.php`
+1. Ouvrez votre navigateur : `http://localhost/TCBatilly/admin/login.php`
 2. Connectez-vous avec les identifiants par défaut :
    - **Username** : `admin`
    - **Password** : `admin123`
@@ -189,36 +190,45 @@ TCBatilly/
 │   │   └── database.php         # Connexion DB (Singleton)
 │   │
 │   ├── database/
-│   │   └── schema.sql           # Structure de la base de données
+│   │   ├── schema.sql           # Structure de la base de données
+│   │   ├── install_complete.sql # Installation complète (schéma + données)
+│   │   └── migration_*.sql      # Migrations à appliquer sur une base existante
 │   │
 │   ├── api/
 │   │   ├── events.php           # API Événements
 │   │   ├── news.php             # API Actualités
 │   │   ├── pricing.php          # API Tarifs
 │   │   ├── coaches.php          # API Entraîneurs
-│   │   └── services.php         # API Services
-│   │
-│   ├── admin/
-│   │   ├── index.php            # Dashboard
-│   │   ├── login.php            # Page de connexion
-│   │   ├── logout.php           # Déconnexion
-│   │   ├── events.php           # Gestion événements
-│   │   ├── news.php             # Gestion actualités
-│   │   ├── pricing.php          # Gestion tarifs
-│   │   ├── coaches.php          # Gestion entraîneurs
-│   │   ├── services.php         # Gestion services
-│   │   │
-│   │   ├── includes/
-│   │   │   ├── header.php       # Header admin
-│   │   │   └── footer.php       # Footer admin
-│   │   │
-│   │   └── assets/
-│   │       ├── css/
-│   │       │   └── admin.css    # Styles admin
-│   │       └── js/
-│   │           └── admin.js     # Scripts admin
+│   │   ├── services.php         # API Services
+│   │   └── sponsors.php         # API Sponsors
 │   │
 │   └── README.md                # Ce fichier
+│
+├── admin/                       # Panel d'administration (unique)
+│   ├── index.php               # Dashboard
+│   ├── login.php               # Connexion (2FA email + reset password)
+│   ├── logout.php              # Déconnexion
+│   ├── forgot_password.php     # Mot de passe oublié
+│   ├── reset_password.php      # Réinitialisation du mot de passe
+│   ├── events.php              # Gestion événements
+│   ├── calendar.php            # Vue calendrier des événements
+│   ├── news.php                # Gestion actualités
+│   ├── pricing.php             # Gestion tarifs
+│   ├── coaches.php             # Gestion entraîneurs
+│   ├── services.php            # Gestion services
+│   ├── sponsors.php            # Gestion sponsors
+│   ├── settings.php            # Paramètres & utilisateurs
+│   ├── logs.php                # Historique des actions
+│   │
+│   ├── includes/
+│   │   ├── header.php          # Header admin
+│   │   └── footer.php          # Footer admin
+│   │
+│   └── assets/
+│       ├── css/
+│       │   └── admin.css       # Styles admin
+│       └── js/
+│           └── admin.js        # Scripts admin
 │
 ├── assets/
 │   ├── css/

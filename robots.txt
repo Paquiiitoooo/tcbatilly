@@ -1,0 +1,10 @@
+# robots.txt - Tennis Club de Batilly
+User-agent: *
+Allow: /
+
+# Zones privées / techniques
+Disallow: /admin/
+Disallow: /backend/
+Disallow: /assets/uploads/
+
+Sitemap: https://tc-batilly.fr/sitemap.xml

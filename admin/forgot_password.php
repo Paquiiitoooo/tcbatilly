@@ -38,12 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "Une demande de réinitialisation de mot de passe a été effectuée pour votre compte.\n" .
                     "Cliquez sur le lien suivant pour définir un nouveau mot de passe :\n" . $resetUrl . "\n\n" .
                     "Ce lien expirera dans 1 heure. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.";
-                $fromDomain = parse_url(SITE_URL, PHP_URL_HOST) ?: 'tcbatilly.fr';
-                $headers = 'From: ' . SITE_NAME . " <no-reply@" . $fromDomain . ">";
+                $sent = send_email($user['email'], $subject, $message);
 
-                $sent = @mail($user['email'], $subject, $message, $headers);
-
-                if (!$sent || DEBUG_MODE) {
+                // Hors production uniquement : on expose le lien si l'envoi échoue,
+                // pour ne pas bloquer les tests. Jamais en production.
+                if (!$sent && ENVIRONMENT !== 'production') {
                     $debug_token = $resetUrl;
                 }
             } catch (Throwable $e) {

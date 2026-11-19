@@ -50,7 +50,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['events']['active']; ?> / <?php echo $stats['events']['total']; ?></h3>
                     <p>Événements actifs</p>
                 </div>
-                <a href="events.php" class="stat-link">Gérer →</a>
+                <a href="events.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
 
             <article class="stat-card">
@@ -66,7 +66,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['news']['active']; ?> / <?php echo $stats['news']['total']; ?></h3>
                     <p>Actualités actives</p>
                 </div>
-                <a href="news.php" class="stat-link">Gérer →</a>
+                <a href="news.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
 
             <article class="stat-card">
@@ -80,7 +80,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['pricing']['active']; ?> / <?php echo $stats['pricing']['total']; ?></h3>
                     <p>Formules tarifaires</p>
                 </div>
-                <a href="pricing.php" class="stat-link">Gérer →</a>
+                <a href="pricing.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
 
             <article class="stat-card">
@@ -96,7 +96,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['coaches']['active']; ?> / <?php echo $stats['coaches']['total']; ?></h3>
                     <p>Entraîneurs actifs</p>
                 </div>
-                <a href="coaches.php" class="stat-link">Gérer →</a>
+                <a href="coaches.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
 
             <article class="stat-card">
@@ -109,7 +109,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['services']['active']; ?> / <?php echo $stats['services']['total']; ?></h3>
                     <p>Services publiés</p>
                 </div>
-                <a href="services.php" class="stat-link">Gérer →</a>
+                <a href="services.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
 
             <article class="stat-card">
@@ -125,7 +125,7 @@ include 'includes/header.php';
                     <h3><?php echo $stats['users']['admins']; ?> / <?php echo $stats['users']['total']; ?></h3>
                     <p>Admins / comptes</p>
                 </div>
-                <a href="settings.php" class="stat-link">Gérer →</a>
+                <a href="settings.php" class="stat-link"><span>Gérer</span><?php echo admin_icon('arrow-right', 16); ?></a>
             </article>
         </div>
     </section>
@@ -145,17 +145,18 @@ include 'includes/header.php';
             <?php else: ?>
                 <?php foreach ($recent_activities as $activity): ?>
                     <div class="activity-item">
-                        <div class="activity-icon">
-                            <?php
-                            $icons = [
-                                'create' => '➕',
-                                'update' => '✏️',
-                                'delete' => '🗑️',
-                                'login' => '🔐',
-                                'logout' => '👋'
-                            ];
-                            echo $icons[$activity['action']] ?? '📝';
-                            ?>
+                        <?php
+                        $activityIcons = [
+                            'create' => 'plus',
+                            'update' => 'edit',
+                            'delete' => 'trash',
+                            'login'  => 'log-in',
+                            'logout' => 'log-out'
+                        ];
+                        $iconName = $activityIcons[$activity['action']] ?? 'info';
+                        ?>
+                        <div class="activity-icon activity-icon--<?php echo htmlspecialchars($activity['action']); ?>">
+                            <?php echo admin_icon($iconName, 18); ?>
                         </div>
                         <div class="activity-details">
                             <strong><?php echo htmlspecialchars($activity['username']); ?></strong>

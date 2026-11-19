@@ -74,11 +74,11 @@ include 'includes/header.php';
 <div class="content-section" aria-labelledby="coaches-tabs">
     <div class="view-tabs" role="tablist" aria-label="Gestion des entraîneurs" id="coaches-tabs">
         <button type="button" class="view-tab" id="tab-coaches-list" role="tab" aria-controls="panel-coaches-list" aria-selected="<?php echo $form_active ? 'false' : 'true'; ?>">
-            <span aria-hidden="true">🗂️</span>
+            <span aria-hidden="true"><?php echo admin_icon('coaches', 18); ?></span>
             <span>Équipe du club</span>
         </button>
         <button type="button" class="view-tab" id="tab-coaches-form" role="tab" aria-controls="panel-coaches-form" aria-selected="<?php echo $form_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true"><?php echo $editing ? '✏️' : '➕'; ?></span>
+            <span aria-hidden="true"><?php echo $editing ? admin_icon('edit', 18) : admin_icon('plus', 18); ?></span>
             <span><?php echo $editing ? 'Modifier' : 'Ajouter'; ?> un entraîneur</span>
         </button>
     </div>
@@ -87,10 +87,11 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-coaches-list" role="tabpanel" aria-labelledby="tab-coaches-list" aria-hidden="<?php echo $form_active ? 'true' : 'false'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    👥 Liste des entraîneurs
+                    <?php echo admin_icon('coaches', 22); ?>
+                    Liste des entraîneurs
                     <span class="badge badge-info"><?php echo count($coaches); ?></span>
                 </h2>
-                <a class="btn-secondary" href="coaches.php?action=create" data-switch-tab="tab-coaches-form">➕ Ajouter</a>
+                <a class="btn-secondary" href="coaches.php?action=create" data-switch-tab="tab-coaches-form"><?php echo admin_icon('plus', 16); ?><span>Ajouter</span></a>
             </header>
 
             <?php if (empty($coaches)): ?>
@@ -136,11 +137,11 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                                            <a href="coaches.php?edit=<?php echo $coach['id']; ?>" class="btn-secondary" data-switch-tab="tab-coaches-form">✏️ Modifier</a>
+                                            <a href="coaches.php?edit=<?php echo $coach['id']; ?>" class="btn-secondary" data-switch-tab="tab-coaches-form"><?php echo admin_icon('edit', 15); ?><span>Modifier</span></a>
                                             <form method="POST">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="id" value="<?php echo $coach['id']; ?>">
-                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer cet entraîneur ?">🗑️ Supprimer</button>
+                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer cet entraîneur ?"><?php echo admin_icon('trash', 15); ?><span>Supprimer</span></button>
                                             </form>
                                         </div>
                                     </td>
@@ -155,10 +156,11 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-coaches-form" role="tabpanel" aria-labelledby="tab-coaches-form" aria-hidden="<?php echo $form_active ? 'false' : 'true'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    <?php echo $editing ? '✏️ Modifier un entraîneur' : '➕ Ajouter un entraîneur'; ?>
+                    <?php echo $editing ? admin_icon('edit', 22) : admin_icon('plus', 22); ?>
+                    <?php echo $editing ? 'Modifier un entraîneur' : 'Ajouter un entraîneur'; ?>
                 </h2>
                 <?php if ($editing): ?>
-                    <a href="coaches.php" class="btn-ghost" data-switch-tab="tab-coaches-list">↩️ Retour à la liste</a>
+                    <a href="coaches.php" class="btn-ghost" data-switch-tab="tab-coaches-list"><?php echo admin_icon('arrow-left', 16); ?><span>Retour à la liste</span></a>
                 <?php endif; ?>
             </header>
 
@@ -219,7 +221,7 @@ include 'includes/header.php';
                 <p id="coach-form-help" style="color:var(--ink-muted);font-size:13px;">Les profils actifs apparaissent dans la section "Nos Entraîneurs" du site public.</p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">💾 <?php echo $editing ? 'Mettre à jour le profil' : 'Créer le profil'; ?></button>
+                    <button type="submit" class="btn-primary"><?php echo admin_icon('save', 16); ?><span><?php echo $editing ? 'Mettre à jour le profil' : 'Créer le profil'; ?></span></button>
                     <a href="coaches.php" class="btn-secondary" data-switch-tab="tab-coaches-list">Annuler</a>
                 </div>
             </form>

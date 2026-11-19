@@ -153,11 +153,11 @@ include 'includes/header.php';
 <div class="content-section" aria-labelledby="sponsors-tabs">
     <div class="view-tabs" role="tablist" aria-label="Gestion des sponsors" id="sponsors-tabs">
         <button type="button" class="view-tab" id="tab-sponsors-list" role="tab" aria-controls="panel-sponsors-list" aria-selected="<?php echo $form_active ? 'false' : 'true'; ?>">
-            <span aria-hidden="true">🤝</span>
+            <span aria-hidden="true"><?php echo admin_icon('sponsors', 18); ?></span>
             <span>Liste des sponsors</span>
         </button>
         <button type="button" class="view-tab" id="tab-sponsors-form" role="tab" aria-controls="panel-sponsors-form" aria-selected="<?php echo $form_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true"><?php echo $editing ? '✏️' : '➕'; ?></span>
+            <span aria-hidden="true"><?php echo $editing ? admin_icon('edit', 18) : admin_icon('plus', 18); ?></span>
             <span><?php echo $editing ? 'Modifier' : 'Ajouter'; ?> un sponsor</span>
         </button>
     </div>
@@ -166,9 +166,10 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-sponsors-list" role="tabpanel" aria-labelledby="tab-sponsors-list" aria-hidden="<?php echo $form_active ? 'true' : 'false'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
+                    <?php echo admin_icon('sponsors', 22); ?>
                     Sponsors actifs <span class="badge badge-info"><?php echo count($sponsors); ?></span>
                 </h2>
-                <a href="sponsors.php?action=create" class="btn-secondary" data-switch-tab="tab-sponsors-form">➕ Nouveau sponsor</a>
+                <a href="sponsors.php?action=create" class="btn-secondary" data-switch-tab="tab-sponsors-form"><?php echo admin_icon('plus', 16); ?><span>Nouveau sponsor</span></a>
             </header>
 
             <?php if (empty($sponsors)): ?>
@@ -202,7 +203,7 @@ include 'includes/header.php';
                                     <td><strong><?php echo htmlspecialchars($sponsor['name']); ?></strong></td>
                                     <td>
                                         <a href="<?php echo htmlspecialchars($sponsor['website']); ?>" target="_blank" rel="noopener" class="stat-link">
-                                            <?php echo htmlspecialchars(parse_url($sponsor['website'], PHP_URL_HOST) ?? $sponsor['website']); ?> →
+                                            <span><?php echo htmlspecialchars(parse_url($sponsor['website'], PHP_URL_HOST) ?? $sponsor['website']); ?></span><?php echo admin_icon('external', 14); ?>
                                         </a>
                                     </td>
                                     <td><?php echo $sponsor['display_order']; ?></td>
@@ -211,11 +212,11 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                                            <a href="sponsors.php?edit=<?php echo $sponsor['id']; ?>" class="btn-secondary" data-switch-tab="tab-sponsors-form">✏️ Modifier</a>
+                                            <a href="sponsors.php?edit=<?php echo $sponsor['id']; ?>" class="btn-secondary" data-switch-tab="tab-sponsors-form"><?php echo admin_icon('edit', 15); ?><span>Modifier</span></a>
                                             <form method="POST">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="id" value="<?php echo $sponsor['id']; ?>">
-                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce sponsor ?">🗑️ Supprimer</button>
+                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce sponsor ?"><?php echo admin_icon('trash', 15); ?><span>Supprimer</span></button>
                                             </form>
                                         </div>
                                     </td>
@@ -230,10 +231,11 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-sponsors-form" role="tabpanel" aria-labelledby="tab-sponsors-form" aria-hidden="<?php echo $form_active ? 'false' : 'true'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    <?php echo $editing ? '✏️ Modifier un sponsor' : '➕ Ajouter un sponsor'; ?>
+                    <?php echo $editing ? admin_icon('edit', 22) : admin_icon('plus', 22); ?>
+                    <?php echo $editing ? 'Modifier un sponsor' : 'Ajouter un sponsor'; ?>
                 </h2>
                 <?php if ($editing): ?>
-                    <a href="sponsors.php" class="btn-ghost" data-switch-tab="tab-sponsors-list">↩️ Retour à la liste</a>
+                    <a href="sponsors.php" class="btn-ghost" data-switch-tab="tab-sponsors-list"><?php echo admin_icon('arrow-left', 16); ?><span>Retour à la liste</span></a>
                 <?php endif; ?>
             </header>
 

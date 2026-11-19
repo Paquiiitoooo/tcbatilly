@@ -92,7 +92,7 @@ $dbConfig = [
     'port' => env('DB_PORT', 3306),
     'name' => env('DB_NAME', 'tcbatilly'),
     'user' => env('DB_USER', 'root'),
-    'pass' => env('DB_PASS', 'toor'),
+    'pass' => env('DB_PASS', ''),
     'charset' => env('DB_CHARSET', 'utf8mb4'),
 ];
 
@@ -138,12 +138,33 @@ define('DB_CHARSET', $dbConfig['charset']);
 // --------------------------------------------
 define('SITE_NAME', env('SITE_NAME', 'TC Batilly - Administration'));
 
-$detectedScheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+// Détection du schéma (gère aussi le proxy IONOS via X-Forwarded-Proto)
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+    || ((int) ($_SERVER['SERVER_PORT'] ?? 0) === 443);
+$detectedScheme = $isHttps ? 'https://' : 'http://';
 $detectedHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $defaultSiteUrl = rtrim($detectedScheme . $detectedHost, '/');
 
-define('SITE_URL', rtrim(env('SITE_URL', $defaultSiteUrl), '/'));
-define('ADMIN_URL', rtrim(env('ADMIN_URL', SITE_URL . '/admin'), '/'));
+// Filet de sécurité : on ignore une URL « localhost/127.* » héritée d'un .env
+// local si la requête provient en réalité d'un autre domaine (ex: la prod).
+// Cela évite que /admin redirige vers localhost à cause d'un .env mal configuré.
+$hostIsLocal = preg_match('#^(localhost|127\.|::1)#', $detectedHost) === 1;
+$ignoreLocalUrl = static function ($value) use ($hostIsLocal) {
+    if (!is_string($value) || $value === '') {
+        return null;
+    }
+    if (!$hostIsLocal && preg_match('#^https?://(localhost|127\.|::1)#i', $value)) {
+        return null;
+    }
+    return $value;
+};
+
+$envSiteUrl = $ignoreLocalUrl(env('SITE_URL', null));
+define('SITE_URL', rtrim($envSiteUrl ?: $defaultSiteUrl, '/'));
+
+$envAdminUrl = $ignoreLocalUrl(env('ADMIN_URL', null));
+define('ADMIN_URL', rtrim($envAdminUrl ?: (SITE_URL . '/admin'), '/'));
 
 // --------------------------------------------
 // Configuration de sécurité
@@ -153,6 +174,22 @@ define(
     'SESSION_LIFETIME',
     (int) env('SESSION_LIFETIME', 3600 * 2) // 2 heures par défaut
 );
+
+// --------------------------------------------
+// Configuration e-mail (SMTP)
+// --------------------------------------------
+// Si SMTP_HOST est vide, on retombe sur la fonction mail() de PHP.
+define('SMTP_HOST', (string) env('SMTP_HOST', ''));
+define('SMTP_PORT', (int) env('SMTP_PORT', 587));
+define('SMTP_SECURE', strtolower((string) env('SMTP_SECURE', 'tls'))); // tls (STARTTLS) | ssl | none
+define('SMTP_USER', (string) env('SMTP_USER', ''));
+define('SMTP_PASS', (string) env('SMTP_PASS', ''));
+$mailFromDefault = SMTP_USER !== '' ? SMTP_USER : ('contact@' . (parse_url(SITE_URL, PHP_URL_HOST) ?: 'tc-batilly.fr'));
+define('MAIL_FROM', (string) env('MAIL_FROM', $mailFromDefault));
+define('MAIL_FROM_NAME', (string) env('MAIL_FROM_NAME', SITE_NAME));
+
+// Fonction d'envoi d'e-mail (SMTP authentifié + repli mail())
+require_once __DIR__ . '/mailer.php';
 
 // --------------------------------------------
 // Configuration des uploads

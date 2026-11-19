@@ -15,8 +15,12 @@ function dispatch_two_factor_code(PDO $db, array $user): void {
     $code = (string)random_int(100000, 999999);
     $hash = password_hash($code, PASSWORD_DEFAULT);
 
-    $stmt = $db->prepare("UPDATE users SET two_factor_code_hash = ?, two_factor_expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE id = ?");
-    $stmt->execute([$hash, $user['id']]);
+    // Expiration calculée côté PHP (même horloge/fuseau que la vérification),
+    // pour éviter tout décalage avec le NOW() de la base (souvent en UTC sur Plesk).
+    $expiresAt = date('Y-m-d H:i:s', time() + 600); // +10 minutes
+
+    $stmt = $db->prepare("UPDATE users SET two_factor_code_hash = ?, two_factor_expires_at = ? WHERE id = ?");
+    $stmt->execute([$hash, $expiresAt, $user['id']]);
 
     $_SESSION['pending_user_id'] = $user['id'];
     $_SESSION['pending_username'] = $user['username'];
@@ -29,17 +33,32 @@ function dispatch_two_factor_code(PDO $db, array $user): void {
         "Voici votre code de vérification à 6 chiffres : " . $code . "\n" .
         "Il expirera dans 10 minutes.\n\n" .
         "Si vous n'êtes pas à l'origine de cette connexion, ignorez ce message.";
-    $fromDomain = parse_url(SITE_URL, PHP_URL_HOST) ?: 'tcbatilly.fr';
-    $headers = 'From: ' . SITE_NAME . " <no-reply@" . $fromDomain . ">";
 
-    $sent = @mail($user['email'], $subject, $message, $headers);
+    $sent = send_email($user['email'], $subject, $message);
 
-    if (!$sent || DEBUG_MODE) {
+    if ($sent) {
+        unset($_SESSION['two_factor_debug_code']);
+        $_SESSION['two_factor_delivery'] = 'email';
+    } elseif (ENVIRONMENT !== 'production') {
+        // Hors production uniquement : on affiche le code pour ne pas bloquer les tests.
         $_SESSION['two_factor_debug_code'] = $code;
         $_SESSION['two_factor_delivery'] = 'debug';
     } else {
+        // En production, on n'affiche jamais le code : on signale l'échec d'envoi.
         unset($_SESSION['two_factor_debug_code']);
-        $_SESSION['two_factor_delivery'] = 'email';
+        $_SESSION['two_factor_delivery'] = 'failed';
+    }
+}
+
+function two_factor_delivery_message(string $email): string {
+    switch ($_SESSION['two_factor_delivery'] ?? 'email') {
+        case 'email':
+            return 'Un code de vérification vient d\'être envoyé à ' . htmlspecialchars($email)
+                . '. Vérifiez votre boîte de réception (et vos spams).';
+        case 'debug':
+            return 'Environnement de test : utilisez le code affiché ci-dessous pour valider la connexion.';
+        default: // failed
+            return 'L\'envoi du code par e-mail a échoué. Réessayez (« Renvoyer un code ») ou contactez l\'administrateur.';
     }
 }
 
@@ -75,6 +94,14 @@ function finalize_login(PDO $db, array $user): void {
 $error = '';
 $info_message = '';
 $step = $_SESSION['auth_step'] ?? 'login';
+
+// Accès direct (GET) : on repart toujours du formulaire de connexion.
+// Évite de rester bloqué sur l'étape « code 2FA » à cause d'une session précédente.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    clear_pending_auth();
+    $step = 'login';
+}
+
 $success_query = $_GET['reset'] ?? '';
 if ($success_query === 'success') {
     $info_message = 'Votre mot de passe a été mis à jour. Vous pouvez vous connecter avec vos nouvelles identifiants.';
@@ -107,12 +134,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
+            // Si la 2FA est désactivée pour ce compte, connexion directe (sans code e-mail).
+            if ((int) ($user['two_factor_enabled'] ?? 1) !== 1) {
+                $_SESSION['pending_user_id'] = $user['id'];
+                $_SESSION['pending_username'] = $user['username'];
+                $_SESSION['pending_user_email'] = $user['email'];
+                $_SESSION['pending_user_role'] = $user['role'];
+
+                if ((int) $user['force_password_change'] === 1) {
+                    $_SESSION['auth_step'] = 'password_change';
+                    $info_message = 'Veuillez définir un nouveau mot de passe avant d\'accéder au tableau de bord.';
+                    $step = 'password_change';
+                } else {
+                    finalize_login($db, $user);
+                }
+                break;
+            }
+
             dispatch_two_factor_code($db, $user);
-            $delivery = $_SESSION['two_factor_delivery'] ?? 'email';
-            $info_message = ($delivery === 'email')
-                ? 'Un code de vérification vient d\'être envoyé à ' . htmlspecialchars($user['email']) . '. '
-                  . 'Vérifiez votre boîte de réception (et vos spams).'
-                : 'En environnement local, utilisez le code affiché ci-dessous pour valider la connexion.';
+            $info_message = two_factor_delivery_message($user['email']);
             $step = 'two_factor';
             break;
 
@@ -138,10 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (isset($_POST['resend_code'])) {
                 dispatch_two_factor_code($db, $user);
-                $delivery = $_SESSION['two_factor_delivery'] ?? 'email';
-                $info_message = ($delivery === 'email')
-                    ? 'Nouveau code envoyé. Vérifiez votre messagerie.'
-                    : 'En environnement local, utilisez le nouveau code affiché ci-dessous.';
+                $info_message = two_factor_delivery_message($user['email']);
                 $step = 'two_factor';
                 break;
             }
@@ -476,14 +513,14 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
 
                 <div class="brand-stats">
                     <div class="brand-stat">
-                        <span>🎾</span>
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M18.09 4.5A10 10 0 0 0 4.5 18.09"></path><path d="M5.91 19.5A10 10 0 0 0 19.5 5.91"></path></svg></span>
                         <div>
                             <strong>Gestion complète</strong>
                             <p style="font-size:13px;opacity:0.85;">Événements, actualités, tarifs, services</p>
                         </div>
                     </div>
                     <div class="brand-stat">
-                        <span>🔐</span>
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
                         <div>
                             <strong>Espace sécurisé</strong>
                             <p style="font-size:13px;opacity:0.85;">Accès réservé aux membres autorisés</p>
@@ -530,7 +567,7 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
                         <input type="text" id="two_factor_code" name="two_factor_code" inputmode="numeric" maxlength="6" class="code-input" placeholder="- - - - - -" autocomplete="one-time-code" required>
                     </div>
                     <div class="two-factor-actions">
-                        <button type="submit" name="resend_code" value="1" class="btn-login-secondary">Renvoyer un code</button>
+                        <button type="submit" name="resend_code" value="1" class="btn-login-secondary" formnovalidate>Renvoyer un code</button>
                         <button type="submit" class="btn-login">Vérifier le code</button>
                     </div>
                 <?php elseif ($step === 'password_change'): ?>

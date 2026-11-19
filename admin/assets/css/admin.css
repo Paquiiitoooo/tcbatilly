@@ -2002,3 +2002,127 @@ details .details-content {
     border: 1px solid var(--border);
 }
 
+/* ============================================
+   FINITIONS PRO & FLUIDITÉ
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Icônes SVG : ne jamais écraser, alignement net */
+.btn-primary svg,
+.btn-secondary svg,
+.btn-danger svg,
+.btn-success svg,
+.btn-ghost svg,
+.stat-link svg,
+.view-tab svg,
+.alert svg,
+.activity-icon svg {
+    flex-shrink: 0;
+}
+
+/* Retour visuel au clic (sensation tactile) */
+.btn-primary:active,
+.btn-secondary:active,
+.btn-danger:active,
+.btn-success:active,
+.btn-ghost:active {
+    transform: translateY(0) scale(0.97);
+}
+
+/* Icônes d'activité — couleur sémantique par action */
+.activity-icon {
+    color: var(--brand-dark);
+}
+.activity-icon svg {
+    width: 18px;
+    height: 18px;
+}
+.activity-icon--create { background: rgba(53, 182, 134, 0.14); color: var(--success); }
+.activity-icon--update { background: rgba(74, 143, 162, 0.14); color: var(--info); }
+.activity-icon--delete { background: rgba(224, 97, 76, 0.14);  color: var(--danger); }
+.activity-icon--login  { background: rgba(209, 135, 90, 0.16); color: var(--brand-dark); }
+.activity-icon--logout { background: rgba(110, 115, 120, 0.14); color: var(--ink-muted); }
+
+/* Alertes : transition douce (sortie auto gérée en JS) */
+.alert {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Crédit footer + cœur */
+.footer-credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.footer-heart {
+    color: #e0614c;
+}
+
+/* Nav : l'icône avance légèrement au survol */
+.nav-item svg {
+    transition: transform var(--transition);
+}
+.nav-item:hover svg {
+    transform: translateX(2px);
+}
+
+/* Lignes de tableau : survol fluide */
+table tbody tr {
+    transition: background var(--transition);
+}
+table tbody tr:hover {
+    background: rgba(209, 135, 90, 0.05);
+}
+
+/* Anneau de focus clavier homogène (accessibilité + finition) */
+a:focus-visible,
+button:focus-visible,
+[role="tab"]:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-danger:focus-visible,
+.btn-ghost:focus-visible {
+    outline: 2px solid rgba(209, 135, 90, 0.55);
+    outline-offset: 2px;
+}
+
+/* Apparition fluide du contenu et des panneaux d'onglets */
+@keyframes tcbFadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-layout,
+.content-section {
+    animation: tcbFadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.tab-panel[aria-hidden="false"] {
+    animation: tcbFadeUp 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Apparition échelonnée des cartes de statistiques */
+.metric-grid .stat-card {
+    animation: tcbFadeUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.metric-grid .stat-card:nth-child(2) { animation-delay: 0.05s; }
+.metric-grid .stat-card:nth-child(3) { animation-delay: 0.10s; }
+.metric-grid .stat-card:nth-child(4) { animation-delay: 0.15s; }
+.metric-grid .stat-card:nth-child(5) { animation-delay: 0.20s; }
+.metric-grid .stat-card:nth-child(6) { animation-delay: 0.25s; }
+
+/* Respect des préférences de réduction d'animation */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+

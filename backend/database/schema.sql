@@ -1,9 +1,12 @@
 -- ============================================
 -- TC BATILLY - Base de données
 -- ============================================
-
-CREATE DATABASE IF NOT EXISTS tcbatilly CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE tcbatilly;
+-- IMPORTANT : ce script s'importe dans la base DÉJÀ sélectionnée.
+-- Sur un hébergement mutualisé (IONOS) la base est pré-créée (ex: tcb_bdd_site) :
+-- sélectionnez-la dans phpMyAdmin puis importez ce fichier tel quel.
+-- En local, créez/sélectionnez la base avant l'import, par ex :
+--   CREATE DATABASE IF NOT EXISTS tcbatilly CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--   USE tcbatilly;
 
 -- Table des utilisateurs admin
 CREATE TABLE IF NOT EXISTS users (
@@ -12,6 +15,12 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'editor') DEFAULT 'editor',
+    two_factor_enabled TINYINT(1) NOT NULL DEFAULT 1,
+    two_factor_code_hash VARCHAR(255) DEFAULT NULL,
+    two_factor_expires_at DATETIME DEFAULT NULL,
+    password_reset_token_hash VARCHAR(255) DEFAULT NULL,
+    password_reset_expires_at DATETIME DEFAULT NULL,
+    force_password_change TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -22,6 +31,7 @@ CREATE TABLE IF NOT EXISTS events (
     title VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
     event_date DATE NOT NULL,
+    event_time VARCHAR(50) DEFAULT '(journée)',
     day VARCHAR(10) NOT NULL,
     month VARCHAR(10) NOT NULL,
     category ENUM('tournoi', 'stage', 'evenement', 'autre') DEFAULT 'evenement',
@@ -94,6 +104,20 @@ CREATE TABLE IF NOT EXISTS services (
     INDEX idx_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table des sponsors / partenaires
+CREATE TABLE IF NOT EXISTS sponsors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    website VARCHAR(255) DEFAULT NULL,
+    logo_path VARCHAR(255) DEFAULT NULL,
+    display_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_order (display_order),
+    INDEX idx_active (is_active)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Table des paramètres du site
 CREATE TABLE IF NOT EXISTS settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,8 +149,9 @@ CREATE TABLE IF NOT EXISTS activity_logs (
 -- ============================================
 
 -- Utilisateur admin par défaut (mot de passe: admin123)
-INSERT INTO users (username, email, password, role) VALUES
-('admin', 'admin@tcbatilly.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+-- force_password_change = 1 : changement obligatoire à la première connexion
+INSERT INTO users (username, email, password, role, force_password_change) VALUES
+('admin', 'admin@tcbatilly.fr', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1);
 
 -- Événements initiaux (depuis le JSON existant)
 INSERT INTO events (title, description, event_date, day, month, category, is_active) VALUES

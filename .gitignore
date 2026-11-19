@@ -42,6 +42,7 @@ access_log
 # Base de données (fichiers SQL locaux)
 *.sql
 !backend/database/schema.sql
+!backend/database/install.sql
 !backend/database/migration_*.sql
 
 # Fichiers temporaires PHP

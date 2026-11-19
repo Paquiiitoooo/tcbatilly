@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mentions légales - Tennis Club de Batilly</title>
+    <meta name="description" content="Mentions légales du Tennis Club de Batilly : éditeur, coordonnées, hébergement, propriété intellectuelle et responsabilité du site officiel du club.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#d1875a">
+    <link rel="canonical" href="https://tc-batilly.fr/mentions-legales.html">
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mentions légales - Tennis Club de Batilly">
+    <meta property="og:description" content="Informations légales et coordonnées officielles du Tennis Club de Batilly.">
+    <meta property="og:url" content="https://tc-batilly.fr/mentions-legales.html">
+    <meta property="og:locale" content="fr_FR">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -82,7 +92,7 @@
                 <p><span>Téléphone :</span> +33 3 83 00 00 00</p>
                 <p><span>Email :</span> <a href="mailto:contact@tcbatilly.fr">contact@tcbatilly.fr</a></p>
                 <p><span>Directeur de la publication :</span> Président du TC Batilly</p>
-                <p><span>Hébergement :</span> Serveur local / Déploiement futur</p>
+                <p><span>Hébergement :</span> IONOS SARL – 7 place de la Gare, 57200 Sarreguemines, France – <a href="https://www.ionos.fr" target="_blank" rel="noopener">www.ionos.fr</a></p>
             </section>
 
             <section>
@@ -115,7 +125,8 @@
     </main>
 
     <footer>
-        <p>&copy; <?php echo date('Y'); ?> Tennis Club de Batilly. Tous droits réservés.</p>
+        <p>&copy; <span id="year"></span> Tennis Club de Batilly. Tous droits réservés.</p>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     </footer>
 </body>
 </html>

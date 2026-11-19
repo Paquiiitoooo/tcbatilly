@@ -79,11 +79,11 @@ include 'includes/header.php';
 <div class="content-section" aria-labelledby="pricing-tabs">
     <div class="view-tabs" role="tablist" aria-label="Gestion des tarifs" id="pricing-tabs">
         <button type="button" class="view-tab" id="tab-pricing-list" role="tab" aria-controls="panel-pricing-list" aria-selected="<?php echo $form_active ? 'false' : 'true'; ?>">
-            <span aria-hidden="true">💼</span>
+            <span aria-hidden="true"><?php echo admin_icon('pricing', 18); ?></span>
             <span>Formules publiées</span>
         </button>
         <button type="button" class="view-tab" id="tab-pricing-form" role="tab" aria-controls="panel-pricing-form" aria-selected="<?php echo $form_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true"><?php echo $editing ? '✏️' : '➕'; ?></span>
+            <span aria-hidden="true"><?php echo $editing ? admin_icon('edit', 18) : admin_icon('plus', 18); ?></span>
             <span><?php echo $editing ? 'Modifier' : 'Ajouter'; ?> un tarif</span>
         </button>
     </div>
@@ -98,7 +98,7 @@ include 'includes/header.php';
                     </svg>
                     Formules tarifaires <span class="badge badge-info"><?php echo count($pricing_list); ?></span>
                 </h2>
-                <a href="pricing.php?action=create" class="btn-secondary" data-switch-tab="tab-pricing-form">➕ Nouvelle formule</a>
+                <a href="pricing.php?action=create" class="btn-secondary" data-switch-tab="tab-pricing-form"><?php echo admin_icon('plus', 16); ?><span>Nouvelle formule</span></a>
             </header>
 
             <?php if (empty($pricing_list)): ?>
@@ -145,11 +145,11 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                                            <a href="pricing.php?edit=<?php echo $pricing['id']; ?>" class="btn-secondary" data-switch-tab="tab-pricing-form">✏️ Modifier</a>
+                                            <a href="pricing.php?edit=<?php echo $pricing['id']; ?>" class="btn-secondary" data-switch-tab="tab-pricing-form"><?php echo admin_icon('edit', 15); ?><span>Modifier</span></a>
                                             <form method="POST">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="id" value="<?php echo $pricing['id']; ?>">
-                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce tarif ?">🗑️ Supprimer</button>
+                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce tarif ?"><?php echo admin_icon('trash', 15); ?><span>Supprimer</span></button>
                                             </form>
                                         </div>
                                     </td>
@@ -164,10 +164,11 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-pricing-form" role="tabpanel" aria-labelledby="tab-pricing-form" aria-hidden="<?php echo $form_active ? 'false' : 'true'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    <?php echo $editing ? '✏️ Modifier un tarif' : '➕ Ajouter un tarif'; ?>
+                    <?php echo $editing ? admin_icon('edit', 22) : admin_icon('plus', 22); ?>
+                    <?php echo $editing ? 'Modifier un tarif' : 'Ajouter un tarif'; ?>
                 </h2>
                 <?php if ($editing): ?>
-                    <a href="pricing.php" class="btn-ghost" data-switch-tab="tab-pricing-list">↩️ Retour à la liste</a>
+                    <a href="pricing.php" class="btn-ghost" data-switch-tab="tab-pricing-list"><?php echo admin_icon('arrow-left', 16); ?><span>Retour à la liste</span></a>
                 <?php endif; ?>
             </header>
 

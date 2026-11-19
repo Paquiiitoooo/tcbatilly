@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politique de confidentialité - Tennis Club de Batilly</title>
+    <meta name="description" content="Politique de confidentialité du Tennis Club de Batilly : gestion des données personnelles, cookies et droits des utilisateurs (RGPD).">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#d1875a">
+    <link rel="canonical" href="https://tc-batilly.fr/politique-confidentialite.html">
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Politique de confidentialité - Tennis Club de Batilly">
+    <meta property="og:description" content="Comment le Tennis Club de Batilly protège vos données personnelles et gère les cookies.">
+    <meta property="og:url" content="https://tc-batilly.fr/politique-confidentialite.html">
+    <meta property="og:locale" content="fr_FR">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -147,7 +157,8 @@
     </main>
 
     <footer>
-        <p>&copy; <?php echo date('Y'); ?> Tennis Club de Batilly. Tous droits réservés.</p>
+        <p>&copy; <span id="year"></span> Tennis Club de Batilly. Tous droits réservés.</p>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     </footer>
 </body>
 </html>

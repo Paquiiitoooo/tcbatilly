@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/icons.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,6 +48,19 @@
                     <span>Événements</span>
                 </a>
 
+                <a href="calendar.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'calendar.php' ? 'active' : ''; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                        <line x1="8" y1="14" x2="8" y2="14"></line>
+                        <line x1="12" y1="14" x2="12" y2="14"></line>
+                        <line x1="16" y1="14" x2="16" y2="14"></line>
+                    </svg>
+                    <span>Calendrier</span>
+                </a>
+
                 <a href="news.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'news.php' ? 'active' : ''; ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
@@ -86,6 +100,15 @@
                         <path d="M7 19a5 5 0 0 0 10 0"></path>
                     </svg>
                     <span>Sponsors</span>
+                </a>
+
+                <a href="polls.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'polls.php' ? 'active' : ''; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>Sondages</span>
                 </a>
 
                 <?php if (is_admin()): ?>
@@ -158,14 +181,16 @@
             </header>
 
             <?php if (isset($_GET['success'])): ?>
-                <div class="alert alert-success">
-                    ✓ <?php echo htmlspecialchars($_GET['success']); ?>
+                <div class="alert alert-success" role="status">
+                    <?php echo admin_icon('check-circle', 20); ?>
+                    <span><?php echo htmlspecialchars($_GET['success']); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if (isset($_GET['error'])): ?>
-                <div class="alert alert-error">
-                    ⚠ <?php echo htmlspecialchars($_GET['error']); ?>
+                <div class="alert alert-error" role="alert">
+                    <?php echo admin_icon('alert', 20); ?>
+                    <span><?php echo htmlspecialchars($_GET['error']); ?></span>
                 </div>
             <?php endif; ?>
 

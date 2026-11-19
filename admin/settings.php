@@ -178,11 +178,11 @@ $users_tab_active = $active_tab === 'users';
 
     <div class="view-tabs" role="tablist" aria-label="Paramètres et utilisateurs" id="settings-tabs">
         <button type="button" class="view-tab" id="tab-settings" role="tab" aria-controls="panel-settings" aria-selected="<?php echo $settings_tab_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true">⚙️</span>
+            <span aria-hidden="true"><?php echo admin_icon('settings', 18); ?></span>
             <span>Paramètres du site</span>
         </button>
         <button type="button" class="view-tab" id="tab-users" role="tab" aria-controls="panel-users" aria-selected="<?php echo $users_tab_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true">👥</span>
+            <span aria-hidden="true"><?php echo admin_icon('coaches', 18); ?></span>
             <span>Utilisateurs & rôles</span>
         </button>
     </div>

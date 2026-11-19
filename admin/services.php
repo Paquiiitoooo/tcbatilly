@@ -60,11 +60,11 @@ include 'includes/header.php';
 <div class="content-section" aria-labelledby="services-tabs">
     <div class="view-tabs" role="tablist" aria-label="Gestion des services" id="services-tabs">
         <button type="button" class="view-tab" id="tab-services-list" role="tab" aria-controls="panel-services-list" aria-selected="<?php echo $form_active ? 'false' : 'true'; ?>">
-            <span aria-hidden="true">🧰</span>
+            <span aria-hidden="true"><?php echo admin_icon('services', 18); ?></span>
             <span>Services en ligne</span>
         </button>
         <button type="button" class="view-tab" id="tab-services-form" role="tab" aria-controls="panel-services-form" aria-selected="<?php echo $form_active ? 'true' : 'false'; ?>">
-            <span aria-hidden="true"><?php echo $editing ? '✏️' : '➕'; ?></span>
+            <span aria-hidden="true"><?php echo $editing ? admin_icon('edit', 18) : admin_icon('plus', 18); ?></span>
             <span><?php echo $editing ? 'Modifier' : 'Ajouter'; ?> un service</span>
         </button>
     </div>
@@ -78,7 +78,7 @@ include 'includes/header.php';
                     </svg>
                     Services proposés <span class="badge badge-info"><?php echo count($services); ?></span>
                 </h2>
-                <a href="services.php?action=create" class="btn-secondary" data-switch-tab="tab-services-form">➕ Nouveau service</a>
+                <a href="services.php?action=create" class="btn-secondary" data-switch-tab="tab-services-form"><?php echo admin_icon('plus', 16); ?><span>Nouveau service</span></a>
             </header>
 
             <?php if (empty($services)): ?>
@@ -123,11 +123,11 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                                            <a href="services.php?edit=<?php echo $service['id']; ?>" class="btn-secondary" data-switch-tab="tab-services-form">✏️ Modifier</a>
+                                            <a href="services.php?edit=<?php echo $service['id']; ?>" class="btn-secondary" data-switch-tab="tab-services-form"><?php echo admin_icon('edit', 15); ?><span>Modifier</span></a>
                                             <form method="POST">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
-                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce service ?">🗑️ Supprimer</button>
+                                                <button type="submit" class="btn-danger" data-confirm-delete="Supprimer ce service ?"><?php echo admin_icon('trash', 15); ?><span>Supprimer</span></button>
                                             </form>
                                         </div>
                                     </td>
@@ -142,10 +142,11 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-services-form" role="tabpanel" aria-labelledby="tab-services-form" aria-hidden="<?php echo $form_active ? 'false' : 'true'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    <?php echo $editing ? '✏️ Modifier un service' : '➕ Ajouter un service'; ?>
+                    <?php echo $editing ? admin_icon('edit', 22) : admin_icon('plus', 22); ?>
+                    <?php echo $editing ? 'Modifier un service' : 'Ajouter un service'; ?>
                 </h2>
                 <?php if ($editing): ?>
-                    <a href="services.php" class="btn-ghost" data-switch-tab="tab-services-list">↩️ Retour à la liste</a>
+                    <a href="services.php" class="btn-ghost" data-switch-tab="tab-services-list"><?php echo admin_icon('arrow-left', 16); ?><span>Retour à la liste</span></a>
                 <?php endif; ?>
             </header>
 
