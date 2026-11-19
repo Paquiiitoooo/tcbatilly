@@ -295,3 +295,197 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Image cropper for admin uploads
+document.addEventListener('DOMContentLoaded', function() {
+    const cropInputs = document.querySelectorAll('[data-crop-input]');
+    if (!cropInputs.length) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'crop-modal';
+    modal.innerHTML = `
+        <div class="crop-dialog" role="dialog" aria-modal="true" aria-label="Recadrer l image">
+            <div class="crop-dialog-header">
+                <h2>Recadrer l image</h2>
+                <button type="button" class="btn-ghost crop-close">Fermer</button>
+            </div>
+            <div class="crop-stage">
+                <div class="crop-frame">
+                    <img class="crop-image" alt="">
+                </div>
+            </div>
+            <div class="crop-controls">
+                <label for="cropZoom">Zoom</label>
+                <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1">
+            </div>
+            <div class="form-actions crop-actions">
+                <button type="button" class="btn-primary crop-apply">Utiliser cette image</button>
+                <button type="button" class="btn-secondary crop-cancel">Annuler</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const frame = modal.querySelector('.crop-frame');
+    const img = modal.querySelector('.crop-image');
+    const zoomInput = modal.querySelector('#cropZoom');
+    const applyBtn = modal.querySelector('.crop-apply');
+    const cancelBtns = modal.querySelectorAll('.crop-close, .crop-cancel');
+
+    let activeInput = null;
+    let targetInput = null;
+    let preview = null;
+    let outputWidth = 800;
+    let outputHeight = 800;
+    let outputType = 'image/jpeg';
+    let baseScale = 1;
+    let zoom = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function constrainOffsets() {
+        const frameRect = frame.getBoundingClientRect();
+        const scale = baseScale * zoom;
+        const imageWidth = img.naturalWidth * scale;
+        const imageHeight = img.naturalHeight * scale;
+        const maxX = Math.max(0, (imageWidth - frameRect.width) / 2);
+        const maxY = Math.max(0, (imageHeight - frameRect.height) / 2);
+        offsetX = Math.max(-maxX, Math.min(maxX, offsetX));
+        offsetY = Math.max(-maxY, Math.min(maxY, offsetY));
+    }
+
+    function renderCropImage() {
+        const scale = baseScale * zoom;
+        const frameRect = frame.getBoundingClientRect();
+        const imageWidth = img.naturalWidth * scale;
+        const imageHeight = img.naturalHeight * scale;
+        constrainOffsets();
+        img.style.width = `${imageWidth}px`;
+        img.style.height = `${imageHeight}px`;
+        img.style.left = `${frameRect.width / 2 + offsetX - imageWidth / 2}px`;
+        img.style.top = `${frameRect.height / 2 + offsetY - imageHeight / 2}px`;
+    }
+
+    function openCropper(input, dataUrl) {
+        activeInput = input;
+        targetInput = document.getElementById(input.dataset.cropTarget);
+        preview = document.getElementById(input.dataset.cropPreview);
+        outputWidth = parseInt(input.dataset.cropWidth || '800', 10);
+        outputHeight = parseInt(input.dataset.cropHeight || '800', 10);
+        outputType = input.dataset.cropOutput || 'image/jpeg';
+
+        const aspect = parseFloat(input.dataset.cropAspect || '1');
+        frame.style.aspectRatio = String(aspect);
+        img.onload = function() {
+            const frameRect = frame.getBoundingClientRect();
+            baseScale = Math.max(frameRect.width / img.naturalWidth, frameRect.height / img.naturalHeight);
+            zoom = 1;
+            offsetX = 0;
+            offsetY = 0;
+            zoomInput.value = '1';
+            renderCropImage();
+        };
+        img.src = dataUrl;
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCropper(clearInput) {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+        if (clearInput && activeInput) {
+            activeInput.value = '';
+        }
+        activeInput = null;
+    }
+
+    cropInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                showToast('Merci de choisir une image.', 'error');
+                input.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = event => openCropper(input, event.target.result);
+            reader.readAsDataURL(file);
+        });
+    });
+
+    zoomInput.addEventListener('input', function() {
+        zoom = parseFloat(zoomInput.value);
+        renderCropImage();
+    });
+
+    frame.addEventListener('pointerdown', function(event) {
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        frame.setPointerCapture(event.pointerId);
+    });
+
+    frame.addEventListener('pointermove', function(event) {
+        if (!dragging) return;
+        offsetX += event.clientX - lastX;
+        offsetY += event.clientY - lastY;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        renderCropImage();
+    });
+
+    frame.addEventListener('pointerup', function(event) {
+        dragging = false;
+        frame.releasePointerCapture(event.pointerId);
+    });
+
+    frame.addEventListener('pointercancel', function() {
+        dragging = false;
+    });
+
+    applyBtn.addEventListener('click', function() {
+        if (!targetInput || !img.naturalWidth) return;
+        const frameRect = frame.getBoundingClientRect();
+        const scale = baseScale * zoom;
+        const imageWidth = img.naturalWidth * scale;
+        const imageHeight = img.naturalHeight * scale;
+        const imageLeft = frameRect.width / 2 + offsetX - imageWidth / 2;
+        const imageTop = frameRect.height / 2 + offsetY - imageHeight / 2;
+        const sourceX = Math.max(0, (0 - imageLeft) / scale);
+        const sourceY = Math.max(0, (0 - imageTop) / scale);
+        const sourceWidth = Math.min(img.naturalWidth - sourceX, frameRect.width / scale);
+        const sourceHeight = Math.min(img.naturalHeight - sourceY, frameRect.height / scale);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = outputWidth;
+        canvas.height = outputHeight;
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, outputWidth, outputHeight);
+        const dataUrl = canvas.toDataURL(outputType, 0.92);
+        targetInput.value = dataUrl;
+
+        if (preview) {
+            preview.src = dataUrl;
+            preview.hidden = false;
+        }
+
+        closeCropper(false);
+    });
+
+    cancelBtns.forEach(button => {
+        button.addEventListener('click', () => closeCropper(true));
+    });
+
+    window.addEventListener('resize', function() {
+        if (modal.classList.contains('is-open') && img.naturalWidth) {
+            const frameRect = frame.getBoundingClientRect();
+            baseScale = Math.max(frameRect.width / img.naturalWidth, frameRect.height / img.naturalHeight);
+            renderCropImage();
+        }
+    });
+});
+

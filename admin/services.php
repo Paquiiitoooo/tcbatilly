@@ -5,7 +5,7 @@ require_login();
 
 $db = get_db();
 $page_title = 'Services';
-$page_description = 'Gérer les prestations proposées sur le site';
+$page_description = 'Gerer les prestations proposees sur le site';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -13,41 +13,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'create' || $action === 'update') {
         $title = sanitize($_POST['title']);
         $description = sanitize($_POST['description']);
-        $icon = sanitize($_POST['icon'] ?? '');
+        $icon = '';
         $display_order = intval($_POST['display_order']);
         $is_active = isset($_POST['is_active']) ? 1 : 0;
 
         if ($action === 'create') {
-            $stmt = $db->prepare("INSERT INTO services (title, description, icon, display_order, is_active) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $db->prepare('INSERT INTO services (title, description, icon, display_order, is_active) VALUES (?, ?, ?, ?, ?)');
             $stmt->execute([$title, $description, $icon, $display_order, $is_active]);
             log_activity($db, $_SESSION['user_id'], 'create', 'service', $db->lastInsertId(), $title);
-            redirect('services.php?success=Service créé');
-        } else {
-            $id = (int)$_POST['id'];
-            $stmt = $db->prepare("UPDATE services SET title = ?, description = ?, icon = ?, display_order = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$title, $description, $icon, $display_order, $is_active, $id]);
-            log_activity($db, $_SESSION['user_id'], 'update', 'service', $id, $title);
-            redirect('services.php?success=Service mis à jour');
+            redirect('services.php?success=' . urlencode('Service cree'));
         }
+
+        $id = (int)$_POST['id'];
+        $stmt = $db->prepare('UPDATE services SET title = ?, description = ?, icon = ?, display_order = ?, is_active = ? WHERE id = ?');
+        $stmt->execute([$title, $description, $icon, $display_order, $is_active, $id]);
+        log_activity($db, $_SESSION['user_id'], 'update', 'service', $id, $title);
+        redirect('services.php?success=' . urlencode('Service mis a jour'));
     }
 
     if ($action === 'delete') {
         $id = (int)$_POST['id'];
-        $stmt = $db->prepare("DELETE FROM services WHERE id = ?");
+        $stmt = $db->prepare('DELETE FROM services WHERE id = ?');
         $stmt->execute([$id]);
         log_activity($db, $_SESSION['user_id'], 'delete', 'service', $id);
-        redirect('services.php?success=Service supprimé');
+        redirect('services.php?success=' . urlencode('Service supprime'));
     }
 }
 
-$stmt = $db->query("SELECT * FROM services ORDER BY display_order ASC, id ASC");
+$stmt = $db->query('SELECT * FROM services ORDER BY display_order ASC, id ASC');
 $services = $stmt->fetchAll();
 
 $editing = false;
 $current = null;
 if (isset($_GET['edit'])) {
     $editing = true;
-    $stmt = $db->prepare("SELECT * FROM services WHERE id = ?");
+    $stmt = $db->prepare('SELECT * FROM services WHERE id = ?');
     $stmt->execute([(int)$_GET['edit']]);
     $current = $stmt->fetch();
 }
@@ -73,17 +73,14 @@ include 'includes/header.php';
         <section class="tab-panel" id="panel-services-list" role="tabpanel" aria-labelledby="tab-services-list" aria-hidden="<?php echo $form_active ? 'true' : 'false'; ?>">
             <header class="panel-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;">
                 <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:20px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                    </svg>
-                    Services proposés <span class="badge badge-info"><?php echo count($services); ?></span>
+                    Services proposes <span class="badge badge-info"><?php echo count($services); ?></span>
                 </h2>
                 <a href="services.php?action=create" class="btn-secondary" data-switch-tab="tab-services-form"><?php echo admin_icon('plus', 16); ?><span>Nouveau service</span></a>
             </header>
 
             <?php if (empty($services)): ?>
                 <div class="empty-state" style="text-align:center;padding:48px 20px;color:var(--ink-muted);">
-                    <p>Aucun service référencé.</p>
+                    <p>Aucun service reference.</p>
                     <p><a class="btn-primary" href="services.php?action=create" data-switch-tab="tab-services-form">Ajouter un service</a></p>
                 </div>
             <?php else: ?>
@@ -101,18 +98,13 @@ include 'includes/header.php';
                         <tbody>
                             <?php foreach ($services as $service): ?>
                                 <tr>
-                                    <td>
-                                        <?php if (!empty($service['icon'])): ?>
-                                            <span style="font-size:20px;margin-right:8px;"><?php echo htmlspecialchars($service['icon'] ?? ''); ?></span>
-                                        <?php endif; ?>
-                                        <strong><?php echo htmlspecialchars($service['title'] ?? ''); ?></strong>
-                                    </td>
+                                    <td><strong><?php echo htmlspecialchars($service['title'] ?? ''); ?></strong></td>
                                     <td style="max-width:360px;">
                                         <?php
                                         $description = $service['description'] ?? '';
                                         $excerpt = mb_substr($description, 0, 120);
                                         if (mb_strlen($description) > 120) {
-                                            $excerpt .= '…';
+                                            $excerpt .= '...';
                                         }
                                         echo htmlspecialchars($excerpt);
                                         ?>
@@ -154,22 +146,15 @@ include 'includes/header.php';
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current['id']; ?>"><?php endif; ?>
 
-                <div class="panel-grid two-columns">
-                    <div class="form-group">
-                        <label for="title">Titre du service *</label>
-                        <input type="text" id="title" name="title" required value="<?php echo $editing ? htmlspecialchars($current['title'] ?? '') : ''; ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="icon">Icône / Emoji</label>
-                        <input type="text" id="icon" name="icon" placeholder="⚡" maxlength="10" value="<?php echo $editing ? htmlspecialchars($current['icon'] ?? '') : ''; ?>">
-                    </div>
+                <div class="form-group">
+                    <label for="title">Titre du service *</label>
+                    <input type="text" id="title" name="title" required value="<?php echo $editing ? htmlspecialchars($current['title'] ?? '') : ''; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="description">Description *</label>
                     <textarea id="description" name="description" required rows="5" aria-describedby="services-description-help"><?php echo $editing ? htmlspecialchars($current['description'] ?? '') : ''; ?></textarea>
-                    <small id="services-description-help">Décrivez clairement ce que propose ce service aux membres.</small>
+                    <small id="services-description-help">Decrivez clairement ce que propose ce service aux membres.</small>
                 </div>
 
                 <div class="panel-grid two-columns">
@@ -186,10 +171,10 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <p id="services-form-help" style="color:var(--ink-muted);font-size:13px;">Les services actifs alimentent la section "Nos Services" du site public.</p>
+                <p id="services-form-help" style="color:var(--ink-muted);font-size:13px;">Les services actifs alimentent la section services du site public.</p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre à jour le service' : 'Créer le service'; ?></button>
+                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre a jour le service' : 'Creer le service'; ?></button>
                     <a href="services.php" class="btn-secondary" data-switch-tab="tab-services-list">Annuler</a>
                 </div>
             </form>
@@ -198,4 +183,3 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
-
