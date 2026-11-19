@@ -86,6 +86,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Diagnose FTP connectivity
+        continue-on-error: true
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          echo "Longueurs des secrets (attendu: serveur 13, port 2, utilisateur 25, dossier 10)"
+          echo "FTP_SERVER=${#FTP_SERVER} FTP_PORT=${#FTP_PORT} FTP_USERNAME=${#FTP_USERNAME} FTP_SERVER_DIR=${#FTP_SERVER_DIR}"
+          if timeout 15 bash -c "exec 3<>/dev/tcp/${FTP_SERVER}/${FTP_PORT}"; then
+            echo "TCP: connexion au port OK"
+          else
+            echo "TCP: connexion impossible depuis GitHub (pare-feu ou mauvaise valeur)"
+          fi
+          timeout 25 curl -sv --max-time 20 "ftp://${FTP_SERVER}:${FTP_PORT}/" -o /dev/null 2>&1 | head -15 || true
+
       - name: Upload files by FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -94,6 +112,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: ${{ secrets.FTP_PORT }}
+          timeout: 120000
+          log-level: verbose
           local-dir: ./
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           exclude: |
