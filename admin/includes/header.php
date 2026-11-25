@@ -75,15 +75,18 @@ if (is_admin()) {
         </aside>
 
         <main class="main-content">
-            <header class="content-header">
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le menu" type="button">Menu</button>
+            <div class="content-hero">
+                <header class="content-header">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le menu" type="button">Menu</button>
 
-                <div class="header-left">
-                    <h1><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Tableau de bord'; ?></h1>
-                </div>
+                    <div class="header-left">
+                        <p class="header-kicker">Administration du club</p>
+                        <h1><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Tableau de bord'; ?></h1>
+                    </div>
 
-                <a href="../index.html" target="_blank" rel="noopener" class="btn-view-site">Voir le site</a>
-            </header>
+                    <a href="../index.html" target="_blank" rel="noopener" class="btn-view-site">Voir le site</a>
+                </header>
+            </div>
 
             <?php if (isset($_GET['success'])): ?>
                 <div class="alert alert-success" role="status"><?php echo htmlspecialchars($_GET['success']); ?></div>
