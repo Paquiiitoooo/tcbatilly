@@ -33,12 +33,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $update->execute([$hash, $user['id']]);
 
                 $resetUrl = SITE_URL . '/admin/reset_password.php?token=' . urlencode($token);
-                $subject = SITE_NAME . ' - Réinitialisation du mot de passe';
-                $message = "Bonjour " . $user['username'] . "\n\n" .
-                    "Une demande de réinitialisation de mot de passe a été effectuée pour votre compte.\n" .
-                    "Cliquez sur le lien suivant pour définir un nouveau mot de passe :\n" . $resetUrl . "\n\n" .
-                    "Ce lien expirera dans 1 heure. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.";
-                $sent = send_email($user['email'], $subject, $message);
+                $subject = 'Nouveau mot de passe - TC Batilly';
+                $message = "Bonjour " . $user['username'] . ",\n\n" .
+                    "Quelqu'un a demandé à changer le mot de passe de ce compte. Pour en choisir un nouveau :\n" . $resetUrl . "\n\n" .
+                    "Ce lien est valable 1 heure. Vous n'êtes pas à l'origine de la demande ? Ne faites rien, votre mot de passe reste le même.";
+                $html = email_layout([
+                    'greeting' => 'Bonjour ' . $user['username'] . ',',
+                    'lead' => 'Quelqu\'un a demandé à changer le mot de passe de ce compte.',
+                    'button' => ['label' => 'Choisir un nouveau mot de passe', 'url' => $resetUrl],
+                    'notes' => [
+                        'Ce lien est valable 1 heure.',
+                        'Vous n\'êtes pas à l\'origine de la demande ? Ne faites rien, votre mot de passe reste le même.',
+                    ],
+                ]);
+                $sent = send_email($user['email'], $subject, $message, $html);
 
                 // Hors production uniquement : on expose le lien si l'envoi échoue,
                 // pour ne pas bloquer les tests. Jamais en production.
@@ -64,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
@@ -73,8 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <main class="auth-main">
             <div class="auth-card">
+                <img class="auth-logo" src="../assets/images/logo.jpg" alt="Tennis Club de Batilly" width="72" height="72">
                 <h1>Mot de passe oublié</h1>
-                <p class="auth-lead">Indiquez votre adresse e-mail pour recevoir un lien sécurisé de réinitialisation.</p>
+                <p class="auth-lead">Un lien pour choisir un nouveau mot de passe sera envoyé à cette adresse.</p>
 
                 <?php if (!empty($error)): ?>
                     <div class="notice notice-error" role="alert"><?php echo htmlspecialchars($error); ?></div>

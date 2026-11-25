@@ -120,4 +120,5 @@ jobs:
             --exclude='/README.md' \
             --exclude='/backend/README.md' \
             --exclude='/admin/README.md' \
+            --exclude='/backend/tools/' \
             ./ "${SSH_USER}@${SSH_HOST}:httpdocs/"

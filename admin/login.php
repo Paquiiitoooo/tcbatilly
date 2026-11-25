@@ -28,13 +28,22 @@ function dispatch_two_factor_code(PDO $db, array $user): void {
     $_SESSION['pending_user_role'] = $user['role'];
     $_SESSION['auth_step'] = 'two_factor';
 
-    $subject = SITE_NAME . ' - Code de vérification';
-    $message = "Bonjour " . $user['username'] . "\n\n" .
-        "Voici votre code de vérification à 6 chiffres : " . $code . "\n" .
-        "Il expirera dans 10 minutes.\n\n" .
-        "Si vous n'êtes pas à l'origine de cette connexion, ignorez ce message.";
+    $subject = 'Code de connexion - TC Batilly';
+    $message = "Bonjour " . $user['username'] . ",\n\n" .
+        "Votre code de connexion : " . $code . "\n" .
+        "Il est valable 10 minutes.\n\n" .
+        "Si vous n'avez pas demandé ce code, ne faites rien : personne ne peut se connecter sans lui.";
+    $html = email_layout([
+        'greeting' => 'Bonjour ' . $user['username'] . ',',
+        'lead' => 'Voici le code pour entrer dans l\'administration du site.',
+        'code' => $code,
+        'notes' => [
+            'Il est valable 10 minutes.',
+            'Vous n\'avez rien demandé ? Ne faites rien : personne ne peut se connecter sans ce code.',
+        ],
+    ]);
 
-    $sent = send_email($user['email'], $subject, $message);
+    $sent = send_email($user['email'], $subject, $message, $html);
 
     if ($sent) {
         unset($_SESSION['two_factor_debug_code']);
@@ -293,7 +302,7 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
@@ -302,15 +311,18 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
 
         <main class="auth-main">
             <div class="auth-card">
+                <img class="auth-logo" src="../assets/images/logo.jpg" alt="Tennis Club de Batilly" width="72" height="72">
                 <?php
                 $titles = [
-                    'login' => ['Connexion', 'Entrez vos identifiants pour accéder à l\'administration.'],
-                    'two_factor' => ['Vérification', 'Saisissez le code à 6 chiffres envoyé par e-mail.'],
-                    'password_change' => ['Nouveau mot de passe', 'Choisissez un mot de passe d\'au moins 8 caractères pour continuer.'],
+                    'login' => ['Connexion', ''],
+                    'two_factor' => ['Code de vérification', 'Un code à 6 chiffres vient d\'être envoyé par e-mail.'],
+                    'password_change' => ['Nouveau mot de passe', '8 caractères minimum.'],
                 ];
                 ?>
                 <h1><?php echo $titles[$step][0]; ?></h1>
-                <p class="auth-lead"><?php echo $titles[$step][1]; ?></p>
+                <?php if ($titles[$step][1] !== ''): ?>
+                    <p class="auth-lead"><?php echo $titles[$step][1]; ?></p>
+                <?php endif; ?>
 
                 <?php if (!empty($error)): ?>
                     <div class="notice notice-error" role="alert"><?php echo htmlspecialchars($error); ?></div>
@@ -325,7 +337,7 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
                 <form method="POST" action="">
                     <?php if ($step === 'login'): ?>
                         <div class="form-group">
-                            <label for="username">Nom d'utilisateur ou e-mail</label>
+                            <label for="username">Identifiant ou e-mail</label>
                             <input type="text" id="username" name="username" required autofocus autocomplete="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
                         </div>
 
@@ -334,7 +346,7 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
                             <input type="password" id="password" name="password" required autocomplete="current-password">
                         </div>
 
-                        <button type="submit" class="btn-primary">Se connecter</button>
+                        <button type="submit" class="btn-primary">Entrer</button>
                     <?php elseif ($step === 'two_factor'): ?>
                         <div class="form-group">
                             <label for="two_factor_code">Code de vérification</label>
@@ -364,7 +376,6 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
                     <?php endif; ?>
                     <a href="../index.html">Retour au site</a>
                 </div>
-                <p class="auth-note">Besoin d'aide ? Contactez l'administrateur du site.</p>
             </div>
         </main>
     </div>

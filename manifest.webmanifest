@@ -1,13 +1,13 @@
 {
     "name": "Tennis Club de Batilly",
     "short_name": "TC Batilly",
-    "description": "Site officiel du Tennis Club de Batilly : cours, tournois, stages et réservation de courts en Meurthe-et-Moselle.",
+    "description": "Tennis Club de Batilly, depuis 1989 : offres d'adhésion, calendrier, actualités et réservation des courts.",
     "lang": "fr",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
-    "background_color": "#faf6f1",
-    "theme_color": "#d1875a",
+    "background_color": "#14148c",
+    "theme_color": "#14148c",
     "icons": [
         {
             "src": "/assets/images/logo.jpg",

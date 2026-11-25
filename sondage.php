@@ -74,67 +74,73 @@ if ($poll) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $poll ? htmlspecialchars($poll['title']) : 'Sondage'; ?> - Tennis Club de Batilly</title>
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#d1875a">
+    <meta name="theme-color" content="#14148c">
     <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand: #d1875a;
-            --brand-dark: #b06f4a;
-            --ink: #1f1f1f;
-            --muted: #5f6368;
-            --bg: #faf6f1;
-            --surface: #ffffff;
-            --border: rgba(31, 31, 31, 0.12);
-            --shadow: 0 24px 60px rgba(31, 31, 31, 0.08);
+            --navy: #14148c;
+            --navy-dark: #0b0b63;
+            --yellow: #e8e55a;
+            --ink: #0d0e24;
+            --muted: #565b78;
+            --line: #d6d9e6;
+            --danger: #b3261e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg);
+            font-family: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
             color: var(--ink);
-            line-height: 1.6;
+            background: #fff;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--navy); font-weight: 700; }
+        :focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+
+        .topbar { background: var(--navy); color: #fff; }
+        .topbar-inner {
             display: flex;
-            justify-content: center;
-            padding: 24px 16px 48px;
-        }
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            padding: clamp(22px, 4vw, 40px);
-            box-shadow: var(--shadow);
+            align-items: center;
+            gap: 14px;
             max-width: 1100px;
-            width: 100%;
-            align-self: flex-start;
+            margin: 0 auto;
+            padding: 12px 20px;
+            font-weight: 800;
+            font-stretch: 115%;
         }
-        h1 { font-size: clamp(22px, 4.5vw, 30px); margin-bottom: 8px; }
-        .subtitle { color: var(--muted); margin-bottom: 8px; }
-        .hint { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+        .topbar img { display: block; width: 44px; height: 44px; background: #fff; }
+        .topbar-line { height: 8px; background: var(--yellow); }
+
+        main { max-width: 1100px; margin: 0 auto; padding: 36px 20px 64px; }
+        h1 {
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 900;
+            font-stretch: 125%;
+            letter-spacing: -0.02em;
+            line-height: 1.08;
+            margin-bottom: 12px;
+        }
+        .intro { max-width: 60ch; margin-bottom: 8px; }
+        .hint { color: var(--muted); margin-bottom: 26px; }
 
         .options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 22px;
+            margin-bottom: 36px;
         }
         .choice {
             display: flex;
             flex-direction: column;
-            border: 2px solid var(--border);
-            border-radius: 18px;
-            overflow: hidden;
-            background: var(--surface);
-            transition: border-color .15s, box-shadow .15s;
+            border: 3px solid var(--navy);
+            background: #fff;
         }
-        .choice:hover { border-color: var(--brand); }
-        .choice:has(input:checked) {
-            border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(209, 135, 90, 0.22);
-        }
+        .choice:has(input:checked) { background: var(--yellow); }
         .choice-media {
             position: relative;
             display: block;
@@ -142,7 +148,8 @@ if ($poll) {
             aspect-ratio: 1 / 1;
             padding: 0;
             border: 0;
-            background: #f4f1ec;
+            border-bottom: 3px solid var(--navy);
+            background: #fff;
             cursor: zoom-in;
         }
         .choice-media img {
@@ -152,77 +159,75 @@ if ($poll) {
             height: calc(100% - 28px);
             object-fit: contain;
         }
-        .choice-media:focus-visible { outline: 3px solid var(--brand); outline-offset: -3px; }
+        .choice-media:focus-visible { outline-offset: -6px; }
         .zoom-hint {
             position: absolute;
-            right: 10px;
-            bottom: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: rgba(31, 31, 31, 0.8);
+            right: 0;
+            bottom: 0;
+            padding: 5px 12px;
+            background: var(--navy);
             color: #fff;
-            font-size: 12.5px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
         }
         .choice-pick {
             display: flex;
             align-items: center;
-            margin-top: auto;
             gap: 12px;
+            margin-top: auto;
             padding: 16px 18px;
-            border-top: 1px solid var(--border);
-            font-weight: 700;
+            font-size: 18px;
+            font-weight: 800;
             cursor: pointer;
         }
-        .choice.no-image .choice-pick { border-top: 0; padding: 36px 20px; font-size: 18px; }
-        .choice-pick input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--brand); }
+        .choice.no-image .choice-pick { padding: 44px 20px; font-size: 22px; }
+        .choice-pick input { width: 24px; height: 24px; flex-shrink: 0; accent-color: var(--navy); }
 
-        .form-group { margin-bottom: 20px; max-width: 460px; }
-        label.field { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group { max-width: 460px; margin-bottom: 20px; }
+        label.field { display: block; margin-bottom: 6px; font-weight: 700; }
         input[type="text"] {
             width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            font-family: inherit;
-            font-size: 16px;
+            height: 50px;
+            padding: 0 14px;
+            border: 3px solid var(--navy);
+            border-radius: 0;
+            font: 500 18px 'Archivo', sans-serif;
         }
-        input[type="text"]:focus { outline: none; border-color: var(--brand); }
-        .help { color: var(--muted); font-size: 13px; margin-top: 6px; }
+        input[type="text"]:focus { outline: none; box-shadow: 0 0 0 4px var(--yellow); }
+        .help { margin-top: 6px; font-size: 14px; color: var(--muted); }
         .submit {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
             width: 100%;
             max-width: 460px;
-            padding: 15px 28px;
-            border: none;
-            border-radius: 12px;
-            background: var(--brand);
+            height: 54px;
+            border: 3px solid var(--navy);
+            border-radius: 0;
+            background: var(--navy);
             color: #fff;
-            font: 700 16px 'Montserrat', sans-serif;
+            font: 800 18px 'Archivo', sans-serif;
             cursor: pointer;
         }
-        .submit:hover { background: var(--brand-dark); }
-        .alert { padding: 14px 16px; border-radius: 12px; margin-bottom: 22px; font-weight: 600; }
-        .alert-error { background: rgba(220, 53, 69, 0.1); color: #b02a37; }
-        .privacy-note { color: var(--muted); font-size: 12px; margin-top: 18px; }
-        .privacy-note a { color: var(--brand-dark); }
-        .back { display: inline-block; margin-top: 18px; color: var(--brand-dark); font-weight: 600; text-decoration: none; }
+        .submit:hover { background: var(--yellow); color: var(--navy-dark); }
+        .alert {
+            margin-bottom: 24px;
+            padding: 12px 16px;
+            background: var(--danger);
+            color: #fff;
+            font-weight: 700;
+        }
+        .privacy-note { max-width: 60ch; margin-top: 22px; font-size: 14px; color: var(--muted); }
+        .back { display: inline-block; margin-top: 20px; }
 
         dialog.lightbox {
             width: min(96vw, 1100px);
             margin: auto;
             padding: 16px;
-            border: 0;
-            border-radius: 18px;
-            background: var(--surface);
+            border: 4px solid var(--navy);
+            border-radius: 0;
+            background: #fff;
             color: var(--ink);
         }
-        dialog.lightbox::backdrop { background: rgba(20, 20, 20, 0.78); }
+        dialog.lightbox::backdrop { background: rgba(13, 14, 36, 0.8); }
         .lightbox-bar {
             display: flex;
             align-items: center;
@@ -230,77 +235,81 @@ if ($poll) {
             gap: 12px;
             margin-bottom: 12px;
         }
-        .lightbox-title { font-size: 18px; font-weight: 700; }
+        .lightbox-title { font-size: 20px; font-weight: 800; font-stretch: 112%; }
         .lightbox-stage {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f4f1ec;
-            border-radius: 12px;
             padding: 12px;
+            border: 2px solid var(--line);
+            background: #fff;
         }
-        .lightbox-stage img {
-            display: block;
-            max-width: 100%;
-            max-height: 68vh;
-            object-fit: contain;
-        }
+        .lightbox-stage img { display: block; max-width: 100%; max-height: 66vh; object-fit: contain; }
         .lightbox-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 11px 20px;
-            border: 2px solid var(--brand);
-            border-radius: 12px;
-            background: var(--brand);
+            height: 44px;
+            padding: 0 20px;
+            border: 3px solid var(--navy);
+            border-radius: 0;
+            background: var(--navy);
             color: #fff;
-            font: 700 15px 'Montserrat', sans-serif;
+            font: 800 16px 'Archivo', sans-serif;
             text-decoration: none;
             cursor: pointer;
         }
-        .btn:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
-        .btn-ghost { background: transparent; color: var(--ink); border-color: var(--border); }
-        .btn-ghost:hover { background: #f4f1ec; border-color: var(--border); }
-        .lightbox-actions .spacer { flex: 1; }
+        .btn:hover { background: var(--yellow); color: var(--navy-dark); }
+        .btn-ghost { background: #fff; color: var(--navy); }
 
         @media (max-width: 600px) {
-            .options { gap: 16px; }
-            .submit, .form-group { max-width: none; }
+            .options { gap: 18px; }
+            .form-group, .submit { max-width: none; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="topbar">
+        <div class="topbar-inner">
+            <img src="./assets/images/logo.jpg" alt="" width="44" height="44">
+            <span>Tennis Club de Batilly</span>
+        </div>
+        <div class="topbar-line"></div>
+    </div>
+
+    <main>
         <?php if (!$poll): ?>
-            <h1>Aucun sondage en cours</h1>
-            <p class="subtitle">Il n'y a pas de sondage ouvert au vote pour le moment. Revenez plus tard !</p>
-            <a class="back" href="/index.html">&larr; Retour au site</a>
+            <h1>Pas de sondage en cours</h1>
+            <p class="intro">Aucun vote n'est ouvert pour le moment.</p>
+            <a class="back" href="/index.html">Retour au site</a>
         <?php elseif ($success): ?>
-            <h1>Merci pour votre vote !</h1>
-            <p class="subtitle">Votre choix a bien été enregistré pour « <?php echo htmlspecialchars($poll['title']); ?> ».</p>
-            <a class="back" href="/index.html">&larr; Retour au site</a>
+            <h1>Vote enregistré</h1>
+            <p class="intro">Merci. Votre choix pour « <?php echo htmlspecialchars($poll['title']); ?> » est pris en compte.</p>
+            <a class="back" href="/index.html">Retour au site</a>
         <?php else: ?>
             <h1><?php echo htmlspecialchars($poll['title']); ?></h1>
             <?php if (!empty($poll['description'])): ?>
-                <p class="subtitle"><?php echo nl2br(htmlspecialchars($poll['description'])); ?></p>
+                <p class="intro"><?php echo nl2br(htmlspecialchars($poll['description'])); ?></p>
             <?php endif; ?>
 
             <?php if ($error): ?>
-                <div class="alert alert-error" role="alert"><?php echo htmlspecialchars($error); ?></div>
+                <div class="alert" role="alert"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
             <?php if (!$poll['is_active']): ?>
-                <div class="alert alert-error">Ce sondage est actuellement fermé au vote.</div>
+                <div class="alert">Ce vote est terminé.</div>
             <?php elseif (empty($options)): ?>
-                <p class="subtitle">Ce sondage ne contient pas encore d'options.</p>
+                <p class="intro">Ce sondage n'a pas encore de propositions.</p>
             <?php else: ?>
                 <?php
                 $selected_option = (int)($_POST['option_id'] ?? 0);
                 $has_images = count(array_filter($options, static fn($o) => !empty($o['image_path']))) > 0;
                 ?>
                 <?php if ($has_images): ?>
-                    <p class="hint">Touchez une image pour l'agrandir, puis cochez celle que vous préférez.</p>
+                    <p class="hint">Touchez une image pour la voir en grand.</p>
+                <?php else: ?>
+                    <div style="height: 20px"></div>
                 <?php endif; ?>
 
                 <form method="POST">
@@ -315,10 +324,7 @@ if ($poll) {
                                             data-option="<?php echo (int)$opt['id']; ?>"
                                             aria-label="Agrandir l'image : <?php echo htmlspecialchars($opt['label']); ?>">
                                         <img src="<?php echo htmlspecialchars($opt['image_path']); ?>" alt="<?php echo htmlspecialchars($opt['label']); ?>" loading="lazy" decoding="async">
-                                        <span class="zoom-hint" aria-hidden="true">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                                            Agrandir
-                                        </span>
+                                        <span class="zoom-hint" aria-hidden="true">Agrandir</span>
                                     </button>
                                 <?php endif; ?>
                                 <label class="choice-pick">
@@ -330,16 +336,16 @@ if ($poll) {
                     </div>
 
                     <div class="form-group">
-                        <label class="field" for="licence_number">Votre numéro de licence FFT</label>
-                        <input type="text" id="licence_number" name="licence_number" required autocomplete="off" placeholder="Ex: 1234567A" value="<?php echo htmlspecialchars((string)($_POST['licence_number'] ?? '')); ?>">
-                        <p class="help">Utilisé uniquement pour vérifier que vous êtes bien licencié au club et limiter le vote à une seule participation par personne.</p>
+                        <label class="field" for="licence_number">Numéro de licence</label>
+                        <input type="text" id="licence_number" name="licence_number" required autocomplete="off" placeholder="1234567A" value="<?php echo htmlspecialchars((string)($_POST['licence_number'] ?? '')); ?>">
+                        <p class="help">Une seule voix par licence.</p>
                     </div>
 
                     <button type="submit" class="submit">Voter</button>
 
                     <p class="privacy-note">
-                        Votre numéro de licence est conservé le temps du sondage pour éviter les votes multiples.
-                        Voir notre <a href="/politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.
+                        Le numéro de licence sert à vérifier votre adhésion et à éviter les doubles votes. Il est conservé le temps du sondage.
+                        <a href="/politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
                     </p>
                 </form>
 
@@ -351,8 +357,8 @@ if ($poll) {
                         </div>
                         <div class="lightbox-stage"><img id="lightbox-image" src="" alt=""></div>
                         <div class="lightbox-actions">
-                            <button type="button" class="btn" id="lightbox-choose">Choisir ce logo</button>
-                            <a class="btn btn-ghost" id="lightbox-full" href="#" target="_blank" rel="noopener">Ouvrir en taille réelle</a>
+                            <button type="button" class="btn" id="lightbox-choose">Choisir celui-ci</button>
+                            <a class="btn btn-ghost" id="lightbox-full" href="#" target="_blank" rel="noopener">Taille réelle</a>
                         </div>
                     </dialog>
 
@@ -394,6 +400,6 @@ if ($poll) {
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
-    </div>
+    </main>
 </body>
 </html>

@@ -172,7 +172,7 @@ include 'includes/header.php';
                 <?php endif; ?>
             </header>
 
-            <form method="POST" class="panel-grid" aria-describedby="pricing-form-help">
+            <form method="POST" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current_pricing['id']; ?>"><?php endif; ?>
 
@@ -190,8 +190,9 @@ include 'includes/header.php';
 
                 <div class="panel-grid two-columns">
                     <div class="form-group">
-                        <label for="period">Période</label>
-                        <input type="text" id="period" name="period" placeholder="/ an" value="<?php echo $editing ? htmlspecialchars($current_pricing['period']) : '/ an'; ?>">
+                        <label for="period">Mention devant le prix</label>
+                        <input type="text" id="period" name="period" placeholder="à partir de" value="<?php echo $editing ? htmlspecialchars($current_pricing['period']) : ''; ?>">
+                        <small>Par exemple « à partir de » ou « tarif unique ». Une mention qui commence par « / » (comme « / an ») s'affiche après le prix.</small>
                     </div>
                     <div class="form-group">
                         <label for="display_order">Ordre d'affichage</label>
@@ -242,7 +243,6 @@ include 'includes/header.php';
                     </label>
                 </div>
 
-                <p id="pricing-form-help" style="color:var(--ink-muted);font-size:13px;">Les tarifs actifs alimentent la grille "Nos Tarifs" du site public.</p>
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre à jour la formule' : 'Créer la formule'; ?></button>

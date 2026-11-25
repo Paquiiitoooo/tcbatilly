@@ -19,20 +19,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = sanitize($_POST['title']);
         $description = sanitize($_POST['description']);
         $event_date = $_POST['event_date'];
-        $day = sanitize($_POST['day']);
-        $month = sanitize($_POST['month']);
+        $end_input = trim($_POST['event_end_date'] ?? '');
         $category = $_POST['category'];
         $is_active = isset($_POST['is_active']) ? 1 : 0;
 
+        $start = DateTime::createFromFormat('Y-m-d', $event_date);
+        if (!$start) {
+            redirect('events.php?error=' . urlencode('Date de début invalide'));
+        }
+        $event_end_date = null;
+        $end = $end_input !== '' ? DateTime::createFromFormat('Y-m-d', $end_input) : false;
+        if ($end && $end > $start) {
+            $event_end_date = $end->format('Y-m-d');
+        }
+
+        // Jour et mois d'affichage (anciens champs) déduits des dates
+        $months_short = ['Janv', 'Févr', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'];
+        $day = $start->format('j');
+        $month = $months_short[(int) $start->format('n') - 1];
+        if ($event_end_date !== null) {
+            $day .= '-' . $end->format('j');
+            if ($start->format('Ym') !== $end->format('Ym')) {
+                $month .= '-' . $months_short[(int) $end->format('n') - 1];
+            }
+        }
+
         if ($action === 'create') {
-            $stmt = $db->prepare("INSERT INTO events (title, description, event_date, day, month, category, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$title, $description, $event_date, $day, $month, $category, $is_active]);
+            $stmt = $db->prepare("INSERT INTO events (title, description, event_date, event_end_date, day, month, category, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$title, $description, $event_date, $event_end_date, $day, $month, $category, $is_active]);
             log_activity($db, $_SESSION['user_id'], 'create', 'event', $db->lastInsertId(), $title);
             redirect('events.php?success=' . urlencode('Événement créé avec succès'));
         } else {
             $id = (int)$_POST['id'];
-            $stmt = $db->prepare("UPDATE events SET title = ?, description = ?, event_date = ?, day = ?, month = ?, category = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$title, $description, $event_date, $day, $month, $category, $is_active, $id]);
+            $stmt = $db->prepare("UPDATE events SET title = ?, description = ?, event_date = ?, event_end_date = ?, day = ?, month = ?, category = ?, is_active = ? WHERE id = ?");
+            $stmt->execute([$title, $description, $event_date, $event_end_date, $day, $month, $category, $is_active, $id]);
             log_activity($db, $_SESSION['user_id'], 'update', 'event', $id, $title);
             redirect('events.php?success=' . urlencode('Événement mis à jour'));
         }
@@ -120,7 +140,7 @@ include 'includes/header.php';
                                             <?php echo htmlspecialchars(substr($event['description'], 0, 120)) . (strlen($event['description']) > 120 ? '…' : ''); ?>
                                         </p>
                                     </td>
-                                    <td><?php echo format_date($event['event_date']); ?></td>
+                                    <td><?php echo format_date($event['event_date']); ?><?php if (!empty($event['event_end_date'])): ?><br><span style="color:var(--ink-muted);">au <?php echo format_date($event['event_end_date']); ?></span><?php endif; ?></td>
                                     <td><span class="badge badge-info"><?php echo htmlspecialchars(ucfirst($event['category'])); ?></span></td>
                                     <td>
                                         <?php if ($event['is_active']): ?>
@@ -158,7 +178,7 @@ include 'includes/header.php';
                 <?php endif; ?>
             </header>
 
-            <form method="POST" class="panel-grid" aria-describedby="events-form-help">
+            <form method="POST" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current_event['id']; ?>"><?php endif; ?>
 
@@ -169,28 +189,23 @@ include 'includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label for="event_date">Date complète *</label>
+                        <label for="event_date">Date, ou premier jour *</label>
                         <input type="date" id="event_date" name="event_date" required value="<?php echo $editing ? $current_event['event_date'] : ''; ?>">
-                        <small>Format attendu : AAAA-MM-JJ</small>
                     </div>
                 </div>
 
                 <div class="panel-grid two-columns">
                     <div class="form-group">
-                        <label for="day">Jour (affichage) *</label>
-                        <input type="text" id="day" name="day" required placeholder="Ex: 14 ou 20-31" value="<?php echo $editing ? htmlspecialchars($current_event['day']) : ''; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="month">Mois (affichage) *</label>
-                        <input type="text" id="month" name="month" required placeholder="Ex: Nov, Déc" value="<?php echo $editing ? htmlspecialchars($current_event['month']) : ''; ?>">
+                        <label for="event_end_date">Dernier jour</label>
+                        <input type="date" id="event_end_date" name="event_end_date" value="<?php echo ($editing && !empty($current_event['event_end_date'])) ? $current_event['event_end_date'] : ''; ?>">
+                        <small>À remplir seulement si l'événement dure plusieurs jours.</small>
                     </div>
                 </div>
 
                 <div class="panel-grid">
                     <div class="form-group">
                         <label for="description">Description *</label>
-                        <textarea id="description" name="description" required rows="5" aria-describedby="event-description-help"><?php echo $editing ? htmlspecialchars($current_event['description']) : ''; ?></textarea>
-                        <small id="event-description-help">Décrivez l'événement tel qu'il apparaîtra sur le site.</small>
+                        <textarea id="description" name="description" required rows="5"><?php echo $editing ? htmlspecialchars($current_event['description']) : ''; ?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -219,7 +234,6 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <p id="events-form-help" style="color:var(--ink-muted);font-size:13px;">Les événements actifs alimentent automatiquement la section calendrier du site.</p>
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre à jour l\'événement' : 'Créer l\'événement'; ?></button>

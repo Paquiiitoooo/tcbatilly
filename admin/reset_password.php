@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
@@ -68,8 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
 
         <main class="auth-main">
             <div class="auth-card">
+                <img class="auth-logo" src="../assets/images/logo.jpg" alt="Tennis Club de Batilly" width="72" height="72">
                 <h1>Nouveau mot de passe</h1>
-                <p class="auth-lead">Choisissez un mot de passe robuste d'au moins 8 caractères.</p>
+                <p class="auth-lead">8 caractères minimum.</p>
 
                 <?php if (!empty($error)): ?>
                     <div class="notice notice-error" role="alert"><?php echo htmlspecialchars($error); ?></div>

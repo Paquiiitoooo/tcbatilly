@@ -142,7 +142,7 @@ include 'includes/header.php';
                 <?php endif; ?>
             </header>
 
-            <form method="POST" class="panel-grid" aria-describedby="services-form-help">
+            <form method="POST" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current['id']; ?>"><?php endif; ?>
 
@@ -153,8 +153,7 @@ include 'includes/header.php';
 
                 <div class="form-group">
                     <label for="description">Description *</label>
-                    <textarea id="description" name="description" required rows="5" aria-describedby="services-description-help"><?php echo $editing ? htmlspecialchars($current['description'] ?? '') : ''; ?></textarea>
-                    <small id="services-description-help">Decrivez clairement ce que propose ce service aux membres.</small>
+                    <textarea id="description" name="description" required rows="5"><?php echo $editing ? htmlspecialchars($current['description'] ?? '') : ''; ?></textarea>
                 </div>
 
                 <div class="panel-grid two-columns">
@@ -171,10 +170,9 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <p id="services-form-help" style="color:var(--ink-muted);font-size:13px;">Les services actifs alimentent la section services du site public.</p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre a jour le service' : 'Creer le service'; ?></button>
+                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Enregistrer' : 'Ajouter le service'; ?></button>
                     <a href="services.php" class="btn-secondary" data-switch-tab="tab-services-list">Annuler</a>
                 </div>
             </form>

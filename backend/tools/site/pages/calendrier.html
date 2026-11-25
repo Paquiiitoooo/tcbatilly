@@ -1,0 +1,63 @@
+nav: calendrier
+page: calendar
+title: Calendrier : tournois, stages et championnat | TC Batilly
+description: Calendrier du Tennis Club de Batilly : tournois, stages des vacances et journées de championnat par équipes (CD54, Ligue). Ajoutez-le à votre agenda.
+crumb: Calendrier
+priority: 0.8
+freq: weekly
+---
+        <section class="page-hero" aria-labelledby="titre-page">
+            <div class="wrap">
+                <h1 id="titre-page">Calendrier</h1>
+                <p class="lead">Tournois, stages et journées de championnat de la saison.</p>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="titre-saison">
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-saison">La saison</h2>
+                    <button class="link-button" id="ics-download" type="button">Ajouter à mon agenda (.ics)</button>
+                </div>
+
+                <ol class="season" id="season" aria-label="Mois de la saison"></ol>
+
+                <div class="cal-tools">
+                    <div class="tabs" role="tablist" aria-label="Type d'événements">
+                        <button class="tab" role="tab" aria-selected="true" data-filter="all" type="button">Tout</button>
+                        <button class="tab" role="tab" aria-selected="false" data-filter="sportif" type="button">Sportif</button>
+                        <button class="tab" role="tab" aria-selected="false" data-filter="associatif" type="button">Vie du club</button>
+                    </div>
+                </div>
+
+                <div class="cal-month" id="cal-anchor">
+                    <h3 id="cal-title" aria-live="polite"></h3>
+                    <div class="cal-nav">
+                        <button id="cal-prev" type="button" aria-label="Mois précédent">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button id="cal-next" type="button" aria-label="Mois suivant">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cal-grid" id="cal-grid"></div>
+                <noscript><p class="empty">Le calendrier s'affiche avec JavaScript.</p></noscript>
+
+                <h3 class="cal-list-title" id="cal-list-title">Ce mois-ci</h3>
+                <ul class="cal-list" id="cal-list" aria-labelledby="cal-list-title"></ul>
+            </div>
+        </section>
+
+        <dialog class="evt" id="evt-dialog" aria-labelledby="evt-title">
+            <div class="evt-head">
+                <h3 id="evt-title"></h3>
+                <button class="evt-close" id="evt-close" type="button">Fermer</button>
+            </div>
+            <div class="evt-body">
+                <p class="when" id="evt-when"></p>
+                <p id="evt-text"></p>
+                <span class="tag" id="evt-tag"></span>
+            </div>
+        </dialog>

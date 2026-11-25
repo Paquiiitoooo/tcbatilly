@@ -53,8 +53,8 @@ try {
         }
         
         $stmt = $db->prepare("
-            INSERT INTO events (title, description, event_date, event_time, day, month, category, is_active)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO events (title, description, event_date, event_end_date, event_time, day, month, category, is_active)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
         $is_active = isset($data['is_active']) ? (bool)$data['is_active'] : true;
@@ -64,6 +64,7 @@ try {
             $data['title'],
             $data['description'],
             $data['event_date'],
+            $data['event_end_date'] ?? null,
             $event_time,
             $data['day'],
             $data['month'],
@@ -90,7 +91,7 @@ try {
         $fields = [];
         $values = [];
         
-        $allowed_fields = ['title', 'description', 'event_date', 'event_time', 'day', 'month', 'category', 'is_active'];
+        $allowed_fields = ['title', 'description', 'event_date', 'event_end_date', 'event_time', 'day', 'month', 'category', 'is_active'];
         foreach ($allowed_fields as $field) {
             if (isset($data[$field])) {
                 $fields[] = "$field = ?";

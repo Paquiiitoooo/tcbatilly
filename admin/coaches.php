@@ -5,7 +5,7 @@ require_once 'includes/image_upload.php';
 require_login();
 
 $db = get_db();
-$page_title = 'Entraineurs';
+$page_title = 'Entraîneurs';
 $page_description = 'Gerer l equipe pedagogique du club';
 
 $available_diplomas = [
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute([$id]);
                 $current_coach = $stmt->fetch();
                 if (!$current_coach) {
-                    throw new RuntimeException('Entraineur introuvable.');
+                    throw new RuntimeException('Entraîneur introuvable.');
                 }
                 $image_url = $current_coach['image_url'];
             }
@@ -54,13 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $db->prepare('INSERT INTO coaches (name, role, image_url, bio, display_order, is_active) VALUES (?, ?, ?, ?, ?, ?)');
                 $stmt->execute([$name, $role, $image_url, $diploma, $display_order, $is_active]);
                 log_activity($db, $_SESSION['user_id'], 'create', 'coach', $db->lastInsertId(), $name);
-                redirect('coaches.php?success=' . urlencode('Entraineur cree'));
+                redirect('coaches.php?success=' . urlencode('Entraîneur ajouté'));
             }
 
             $stmt = $db->prepare('UPDATE coaches SET name = ?, role = ?, image_url = ?, bio = ?, display_order = ?, is_active = ? WHERE id = ?');
             $stmt->execute([$name, $role, $image_url, $diploma, $display_order, $is_active, $id]);
             log_activity($db, $_SESSION['user_id'], 'update', 'coach', $id, $name);
-            redirect('coaches.php?success=' . urlencode('Entraineur mis a jour'));
+            redirect('coaches.php?success=' . urlencode('Entraîneur modifié'));
         }
 
         if ($action === 'delete') {
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare('DELETE FROM coaches WHERE id = ?');
             $stmt->execute([$id]);
             log_activity($db, $_SESSION['user_id'], 'delete', 'coach', $id);
-            redirect('coaches.php?success=' . urlencode('Entraineur supprime'));
+            redirect('coaches.php?success=' . urlencode('Entraîneur supprimé'));
         }
     } catch (RuntimeException $e) {
         redirect('coaches.php?error=' . urlencode($e->getMessage()));
@@ -100,7 +100,7 @@ include 'includes/header.php';
 ?>
 
 <div class="content-section" aria-labelledby="coaches-tabs">
-    <div class="view-tabs" role="tablist" aria-label="Gestion des entraineurs" id="coaches-tabs">
+    <div class="view-tabs" role="tablist" aria-label="Gestion des entraîneurs" id="coaches-tabs">
         <button type="button" class="view-tab" id="tab-coaches-list" role="tab" aria-controls="panel-coaches-list" aria-selected="<?php echo $form_active ? 'false' : 'true'; ?>">
             <span aria-hidden="true"><?php echo admin_icon('coaches', 18); ?></span>
             <span>Équipe du club</span>
@@ -124,17 +124,17 @@ include 'includes/header.php';
 
             <?php if (empty($coaches)): ?>
                 <div class="empty-state" style="text-align:center;padding:48px 20px;color:var(--ink-muted);">
-                    <p>Aucun entraineur enregistre pour le moment.</p>
-                    <p><a class="btn-primary" href="coaches.php?action=create" data-switch-tab="tab-coaches-form">Creer le premier profil</a></p>
+                    <p>Aucun entraîneur pour l'instant.</p>
+                    <p><a class="btn-primary" href="coaches.php?action=create" data-switch-tab="tab-coaches-form">Ajouter le premier</a></p>
                 </div>
             <?php else: ?>
-                <div class="table-container" role="application" aria-label="Tableau des entraineurs">
+                <div class="table-container" role="application" aria-label="Tableau des entraîneurs">
                     <table>
                         <thead>
                             <tr>
                                 <th>Photo</th>
                                 <th>Nom & role</th>
-                                <th>Diplome</th>
+                                <th>Diplôme</th>
                                 <th>Ordre</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
@@ -192,7 +192,7 @@ include 'includes/header.php';
                 <?php endif; ?>
             </header>
 
-            <form method="POST" enctype="multipart/form-data" class="panel-grid" aria-describedby="coach-form-help">
+            <form method="POST" enctype="multipart/form-data" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current['id']; ?>"><?php endif; ?>
 
@@ -203,7 +203,7 @@ include 'includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label for="role">Role / specialite *</label>
+                        <label for="role">Rôle *</label>
                         <input type="text" id="role" name="role" required placeholder="Ex: Preparation physique & coaching avance" value="<?php echo $editing ? htmlspecialchars($current['role']) : ''; ?>">
                     </div>
                 </div>
@@ -215,15 +215,15 @@ include 'includes/header.php';
                                data-crop-input data-crop-target="coach_image_data" data-crop-preview="coach_image_preview"
                                data-crop-aspect="1" data-crop-width="800" data-crop-height="800" data-crop-output="image/jpeg">
                         <input type="hidden" id="coach_image_data" name="coach_image_data">
-                        <small>Import depuis ordinateur ou telephone. Recadrage carre 800 x 800 px.</small>
+                        <small>Photo carrée, recadrée en 800 x 800 px.</small>
                         <div class="image-crop-preview">
-                            <img id="coach_image_preview" src="<?php echo $editing ? htmlspecialchars($current['image_url']) : ''; ?>" alt="Apercu photo" <?php echo $editing ? '' : 'hidden'; ?>>
+                            <img id="coach_image_preview" src="<?php echo $editing ? htmlspecialchars($current['image_url']) : ''; ?>" alt="Aperçu de la photo" <?php echo $editing ? '' : 'hidden'; ?>>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="diploma">Diplome FFT *</label>
+                        <label for="diploma">Diplôme FFT *</label>
                         <select id="diploma" name="diploma" required>
-                            <option value="">Selectionner un diplome</option>
+                            <option value="">Choisir un diplôme</option>
                             <?php
                             $selected_diploma = $editing ? ($current['bio'] ?? '') : '';
                             foreach ($available_diplomas as $diploma_option):
@@ -247,15 +247,14 @@ include 'includes/header.php';
                     <div class="form-group" style="align-self:center;">
                         <label>
                             <input type="checkbox" name="is_active" <?php echo (!$editing || $current['is_active']) ? 'checked' : ''; ?>>
-                            Entraineur actif (visible sur le site)
+                            Visible sur le site
                         </label>
                     </div>
                 </div>
 
-                <p id="coach-form-help" style="color:var(--ink-muted);font-size:13px;">Les profils actifs apparaissent dans la section entraineurs du site public.</p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary"><?php echo admin_icon('save', 16); ?><span><?php echo $editing ? 'Mettre à jour le profil' : 'Créer le profil'; ?></span></button>
+                    <button type="submit" class="btn-primary"><?php echo admin_icon('save', 16); ?><span><?php echo $editing ? 'Enregistrer' : 'Ajouter'; ?></span></button>
                     <a href="coaches.php" class="btn-secondary" data-switch-tab="tab-coaches-list">Annuler</a>
                 </div>
             </form>

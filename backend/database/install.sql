@@ -60,6 +60,7 @@ CREATE TABLE events (
     title VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
     event_date DATE NOT NULL,
+    event_end_date DATE DEFAULT NULL,
     event_time VARCHAR(50) DEFAULT '(journée)',
     day VARCHAR(10) NOT NULL,
     month VARCHAR(10) NOT NULL,

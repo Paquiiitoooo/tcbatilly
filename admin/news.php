@@ -4,7 +4,7 @@ require_once '../backend/config/database.php';
 require_login();
 
 $db = get_db();
-$page_title = 'Actualites';
+$page_title = 'Actualités';
 $page_description = 'Gerer les actualites et les annonces du club';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -87,7 +87,7 @@ include 'includes/header.php';
             <?php if (empty($news_list)): ?>
                 <div class="empty-state" style="text-align:center;padding:48px 20px;color:var(--ink-muted);">
                     <p>Aucune actualite enregistree pour le moment.</p>
-                    <p><a class="btn-primary" href="news.php?action=create" data-switch-tab="tab-news-form">Creer la premiere actualite</a></p>
+                    <p><a class="btn-primary" href="news.php?action=create" data-switch-tab="tab-news-form">Ajouter la première actualité</a></p>
                 </div>
             <?php else: ?>
                 <div class="table-container" role="application" aria-label="Tableau des actualites">
@@ -146,7 +146,7 @@ include 'includes/header.php';
                 <?php endif; ?>
             </header>
 
-            <form method="POST" action="" class="panel-grid" aria-describedby="news-form-help">
+            <form method="POST" action="" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?>
                     <input type="hidden" name="id" value="<?php echo $current_news['id']; ?>">
@@ -167,8 +167,7 @@ include 'includes/header.php';
                 <div class="panel-grid two-columns">
                     <div class="form-group">
                         <label for="content">Contenu *</label>
-                        <textarea id="content" name="content" required rows="8" aria-describedby="news-content-help"><?php echo $editing ? htmlspecialchars($current_news['content']) : ''; ?></textarea>
-                        <small id="news-content-help">Decrivez l'actualite telle qu'elle apparaitra sur le site.</small>
+                        <textarea id="content" name="content" required rows="8"><?php echo $editing ? htmlspecialchars($current_news['content']) : ''; ?></textarea>
                     </div>
 
                     <div class="form-group" role="checkbox">
@@ -179,12 +178,9 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <p id="news-form-help" style="color:var(--ink-muted);font-size:13px;">
-                    Les actualites actives sont immediatement visibles sur la page publique.
-                </p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre a jour l actualite' : 'Publier l actualite'; ?></button>
+                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Enregistrer' : 'Publier'; ?></button>
                     <a href="news.php" class="btn-secondary" data-switch-tab="tab-news-list">Annuler</a>
                 </div>
             </form>

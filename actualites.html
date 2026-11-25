@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Actualités du club de tennis de Batilly | TC Batilly</title>
+    <meta name="description" content="Les actualités du Tennis Club de Batilly : résultats, stages, tournois et vie du club à Batilly, en Meurthe-et-Moselle.">
+    <meta name="author" content="Tennis Club de Batilly">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#14148c">
+    <link rel="canonical" href="https://tc-batilly.fr/actualites.html">
+    <link rel="alternate" hreflang="fr" href="https://tc-batilly.fr/actualites.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tennis Club de Batilly">
+    <meta property="og:title" content="Actualités du club de tennis de Batilly | TC Batilly">
+    <meta property="og:description" content="Les actualités du Tennis Club de Batilly : résultats, stages, tournois et vie du club à Batilly, en Meurthe-et-Moselle.">
+    <meta property="og:url" content="https://tc-batilly.fr/actualites.html">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:image" content="https://tc-batilly.fr/assets/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Tennis Club de Batilly, depuis 1989">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Actualités du club de tennis de Batilly | TC Batilly">
+    <meta name="twitter:description" content="Les actualités du Tennis Club de Batilly : résultats, stages, tournois et vie du club à Batilly, en Meurthe-et-Moselle.">
+    <meta name="twitter:image" content="https://tc-batilly.fr/assets/images/og-image.png">
+
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
+    <link rel="apple-touch-icon" href="./assets/images/logo.jpg">
+    <link rel="manifest" href="./manifest.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/site.css">
+    <script type="application/ld+json" id="ld-club">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "SportsClub",
+            "@id": "https://tc-batilly.fr/#club",
+            "name": "Tennis Club de Batilly",
+            "alternateName": "TC Batilly",
+            "url": "https://tc-batilly.fr/",
+            "logo": "https://tc-batilly.fr/assets/images/logo.jpg",
+            "image": "https://tc-batilly.fr/assets/images/og-image.png",
+            "description": "Club de tennis à Batilly, en Meurthe-et-Moselle, depuis 1989 : adhésions, entraînements, tournois et stages.",
+            "foundingDate": "1989",
+            "sport": "Tennis",
+            "areaServed": "Meurthe-et-Moselle",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Batilly",
+                "postalCode": "54980",
+                "addressRegion": "Meurthe-et-Moselle",
+                "addressCountry": "FR"
+            },
+            "sameAs": [
+                "https://tenup.fft.fr/club/55540452"
+            ],
+            "potentialAction": {
+                "@type": "ReserveAction",
+                "target": "https://tenup.fft.fr/club/55540452/reservations"
+            }
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Accueil",
+                    "item": "https://tc-batilly.fr/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Actualités",
+                    "item": "https://tc-batilly.fr/actualites.html"
+                }
+            ]
+        }
+    ]
+}
+    </script>
+</head>
+<body data-page="news">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="brand" href="index.html">
+                <img src="./assets/images/logo.jpg" alt="" width="52" height="52">
+                <span class="brand-name">Tennis Club<br>de Batilly</span>
+            </a>
+
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+
+            <nav class="main-nav" id="menu" aria-label="Navigation principale">
+                <a href="le-club.html">Le club</a>
+                <a href="offres.html">Offres</a>
+                <a href="calendrier.html">Calendrier</a>
+                <a href="actualites.html" class="active" aria-current="page">Actualités</a>
+                <a href="contact.html">Contact</a>
+                <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="contenu">
+        <section class="page-hero" aria-labelledby="titre-page">
+            <div class="wrap">
+                <h1 id="titre-page">Actualités</h1>
+                <p class="lead">Ce qui se passe au club.</p>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="titre-liste">
+            <div class="wrap">
+                <h2 id="titre-liste" class="sr-only">Toutes les actualités</h2>
+                <div class="news-cards news-cards-all" id="news-list" data-limit="20" aria-live="polite">
+                    <p class="empty">Chargement des actualités.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section partners-band" id="partenaires" aria-labelledby="titre-partenaires" data-section="sponsors" hidden>
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-partenaires">Partenaires</h2>
+                    <p class="head-note">Merci à celles et ceux qui soutiennent le club.</p>
+                </div>
+                <div class="partners" id="partners-list"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-next">
+            <div class="wrap footer-next-inner">
+                <p class="footer-next-label">Prochaine date</p>
+                <p class="footer-next-text" id="footer-next" aria-live="polite">Chargement.</p>
+                <a class="footer-next-link" href="calendrier.html">Voir le calendrier</a>
+            </div>
+        </div>
+
+        <div class="wrap footer-grid">
+            <div class="footer-col footer-about">
+                <div class="footer-brand">
+                    <img src="./assets/images/logo.jpg" alt="" width="64" height="64">
+                    <span>Tennis Club<br>de Batilly</span>
+                </div>
+                <p>Association de tennis à Batilly, en Meurthe-et-Moselle, depuis 1989. Affiliée à la Fédération française de tennis.</p>
+                <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
+            </div>
+
+            <nav class="footer-col" aria-labelledby="footer-site">
+                <h2 id="footer-site">Le site</h2>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="le-club.html">Le club</a></li>
+                    <li><a href="offres.html">Offres</a></li>
+                    <li><a href="calendrier.html">Calendrier</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-labelledby="footer-play">
+                <h2 id="footer-play">Jouer</h2>
+                <ul>
+                    <li><a data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a></li>
+                    <li><a data-link="offers" href="https://tenup.fft.fr/club/55540452/offres" target="_blank" rel="noopener">Adhérer sur Ten'Up</a></li>
+                    <li><a href="offres.html">Les offres de la saison</a></li>
+                    <li><a href="calendrier.html">Tournois et stages</a></li>
+                    <li><a href="https://tenup.fft.fr/club/55540452" target="_blank" rel="noopener">Le club sur Ten'Up</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col" aria-labelledby="footer-find">
+                <h2 id="footer-find">Nous trouver</h2>
+                <ul class="footer-contact" id="footer-contact">
+                    <li id="footer-address">Batilly (54980)</li>
+                    <li><a id="footer-route" href="https://www.google.com/maps/search/?api=1&amp;query=Batilly+54980" target="_blank" rel="noopener">Itinéraire</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="wrap footer-bottom-inner">
+                <p>&copy; <span id="year"></span> Tennis Club de Batilly</p>
+                <ul>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="#contenu">Haut de page</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/site.js" defer></script>
+</body>
+</html>

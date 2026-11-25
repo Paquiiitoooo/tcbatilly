@@ -523,8 +523,7 @@ include 'includes/header.php';
         <!-- ============ TAB: LICENCIÉS ============ -->
         <section class="tab-panel" id="panel-polls-licencies" role="tabpanel" aria-labelledby="tab-polls-licencies" aria-hidden="<?php echo $active_tab === 'licencies' ? 'false' : 'true'; ?>">
             <p style="color:var(--ink-muted);margin-bottom:18px;">
-                Cette liste sert à vérifier qu'un numéro de licence saisi au moment du vote correspond bien à un licencié du club.
-                Elle est partagée par tous les sondages.
+                Seuls les numéros de cette liste peuvent voter. Elle sert à tous les sondages.
             </p>
 
             <div class="panel-grid two-columns" style="margin-bottom:24px;">
@@ -621,9 +620,9 @@ include 'includes/header.php';
 
                 <?php if ($current_poll): ?>
                     <div class="stat-card" style="margin-bottom:24px;">
-                        <h3 style="margin:0 0 6px;font-size:16px;">Lien de vote (un seul lien pour tout le monde)</h3>
+                        <h3 style="margin:0 0 6px;font-size:16px;">Lien de vote</h3>
                         <p style="color:var(--ink-muted);font-size:13px;margin-bottom:10px;">
-                            Partagez ce lien, ou générez un QR code à partir de celui-ci (n'importe quel générateur de QR code gratuit fonctionne), et imprimez/affichez-le au club. Chaque licencié ne peut voter qu'une seule fois, grâce à son numéro de licence.
+                            Le même lien pour tout le monde. Collez-le dans un générateur de QR code pour l'afficher au club. Une seule voix par numéro de licence.
                         </p>
                         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                             <input type="text" readonly value="<?php echo htmlspecialchars($vote_url); ?>" id="vote-url-input" style="flex:1;min-width:260px;padding:10px 12px;border-radius:8px;border:1px solid var(--border, #ddd);font-family:monospace;">

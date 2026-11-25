@@ -5,7 +5,7 @@ require_once 'includes/image_upload.php';
 require_login();
 
 $db = get_db();
-$page_title = 'Sponsors & partenaires';
+$page_title = 'Sponsors';
 $page_description = 'Ajoutez et gerez les logos de vos partenaires.';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -186,11 +186,11 @@ include 'includes/header.php';
                         <?php if (!$sponsor['is_active'] || empty($sponsor['logo_path'])) continue; ?>
                         <img src="<?php echo htmlspecialchars($sponsor['logo_path']); ?>" alt="<?php echo htmlspecialchars($sponsor['name']); ?>" class="sponsor-logo-thumb" title="<?php echo htmlspecialchars($sponsor['name']); ?>">
                     <?php endforeach; ?>
-                    <span style="color:var(--ink-muted);font-size:13px;">Apercu du ruban affiche sur le site</span>
+                    <span style="color:var(--ink-muted);font-size:13px;">Tel qu'il apparaît sur le site</span>
                 </div>
             <?php endif; ?>
 
-            <form method="POST" enctype="multipart/form-data" class="panel-grid" aria-describedby="sponsors-form-help">
+            <form method="POST" enctype="multipart/form-data" class="panel-grid">
                 <input type="hidden" name="action" value="<?php echo $editing ? 'update' : 'create'; ?>">
                 <?php if ($editing): ?><input type="hidden" name="id" value="<?php echo $current['id']; ?>"><?php endif; ?>
 
@@ -225,16 +225,15 @@ include 'includes/header.php';
                            data-crop-input data-crop-target="sponsor_logo_data" data-crop-preview="sponsor_logo_preview"
                            data-crop-aspect="2" data-crop-width="480" data-crop-height="240" data-crop-output="image/png">
                     <input type="hidden" id="sponsor_logo_data" name="sponsor_logo_data">
-                    <small>Import depuis ordinateur ou telephone. Recadrage logo 2:1, export 480 x 240 px.</small>
+                    <small>Logo recadré en 2:1, exporté en 480 x 240 px.</small>
                     <div class="image-crop-preview image-crop-preview-logo">
-                        <img id="sponsor_logo_preview" src="<?php echo $editing ? htmlspecialchars($current['logo_path']) : ''; ?>" alt="Apercu logo" <?php echo $editing ? '' : 'hidden'; ?>>
+                        <img id="sponsor_logo_preview" src="<?php echo $editing ? htmlspecialchars($current['logo_path']) : ''; ?>" alt="Aperçu du logo" <?php echo $editing ? '' : 'hidden'; ?>>
                     </div>
                 </div>
 
-                <p id="sponsors-form-help" style="color:var(--ink-muted);font-size:13px;">Les sponsors actifs apparaitront dans le ruban deroulant du site public.</p>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Mettre a jour le sponsor' : 'Ajouter le sponsor'; ?></button>
+                    <button type="submit" class="btn-primary"><?php echo $editing ? 'Enregistrer' : 'Ajouter le sponsor'; ?></button>
                     <a href="sponsors.php" class="btn-secondary" data-switch-tab="tab-sponsors-list">Annuler</a>
                 </div>
             </form>

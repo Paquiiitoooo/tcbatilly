@@ -1,526 +1,258 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- ===== SEO : Métadonnées principales ===== -->
-        <title>Tennis Club de Batilly | Cours, tournois & réservation de courts (54)</title>
-        <meta name="description" content="Tennis Club de Batilly (54980) : club convivial en Meurthe-et-Moselle. Cours enfants et adultes, entraîneurs diplômés, tournois, stages et réservation de courts en ligne. Rejoignez-nous !">
-        <meta name="keywords" content="tennis Batilly, tennis club Batilly, TC Batilly, cours de tennis 54, tennis Meurthe-et-Moselle, réserver court tennis Batilly, école de tennis, tournoi tennis Lorraine, stage tennis enfants">
-        <meta name="author" content="Tennis Club de Batilly">
-        <meta name="robots" content="index, follow, max-image-preview:large">
-        <meta name="theme-color" content="#d1875a">
-        <meta name="geo.region" content="FR-54">
-        <meta name="geo.placename" content="Batilly">
-        <meta name="geo.position" content="49.1828;5.9889">
-        <meta name="ICBM" content="49.1828, 5.9889">
-        <link rel="canonical" href="https://tc-batilly.fr/">
+    <title>Tennis Club de Batilly (54) | Club de tennis depuis 1989</title>
+    <meta name="description" content="Club de tennis à Batilly (Meurthe-et-Moselle) depuis 1989 : offres d'adhésion, tournois et stages, actualités et réservation des courts sur Ten'Up.">
+    <meta name="author" content="Tennis Club de Batilly">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#14148c">
+    <link rel="canonical" href="https://tc-batilly.fr/">
+    <link rel="alternate" hreflang="fr" href="https://tc-batilly.fr/">
 
-        <!-- ===== Open Graph (Facebook, LinkedIn…) ===== -->
-        <meta property="og:type" content="website">
-        <meta property="og:site_name" content="Tennis Club de Batilly">
-        <meta property="og:title" content="Tennis Club de Batilly | Cours, tournois & réservation de courts (54)">
-        <meta property="og:description" content="Club de tennis convivial en Meurthe-et-Moselle. Cours, entraîneurs diplômés, tournois, stages et réservation de courts en ligne.">
-        <meta property="og:url" content="https://tc-batilly.fr/">
-        <meta property="og:locale" content="fr_FR">
-        <meta property="og:image" content="https://tc-batilly.fr/assets/images/logo.jpg">
-        <meta property="og:image:alt" content="Logo du Tennis Club de Batilly">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tennis Club de Batilly">
+    <meta property="og:title" content="Tennis Club de Batilly (54) | Club de tennis depuis 1989">
+    <meta property="og:description" content="Club de tennis à Batilly (Meurthe-et-Moselle) depuis 1989 : offres d'adhésion, tournois et stages, actualités et réservation des courts sur Ten'Up.">
+    <meta property="og:url" content="https://tc-batilly.fr/">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:image" content="https://tc-batilly.fr/assets/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Tennis Club de Batilly, depuis 1989">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tennis Club de Batilly (54) | Club de tennis depuis 1989">
+    <meta name="twitter:description" content="Club de tennis à Batilly (Meurthe-et-Moselle) depuis 1989 : offres d'adhésion, tournois et stages, actualités et réservation des courts sur Ten'Up.">
+    <meta name="twitter:image" content="https://tc-batilly.fr/assets/images/og-image.png">
 
-        <!-- ===== Twitter Card ===== -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Tennis Club de Batilly | Cours, tournois & réservation de courts (54)">
-        <meta name="twitter:description" content="Club de tennis convivial en Meurthe-et-Moselle. Cours, entraîneurs diplômés, tournois, stages et réservation de courts en ligne.">
-        <meta name="twitter:image" content="https://tc-batilly.fr/assets/images/logo.jpg">
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
+    <link rel="apple-touch-icon" href="./assets/images/logo.jpg">
+    <link rel="manifest" href="./manifest.webmanifest">
 
-        <!-- ===== Favicons ===== -->
-        <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg">
-        <link rel="apple-touch-icon" href="./assets/images/logo.jpg">
-        <link rel="manifest" href="./manifest.webmanifest">
-
-        <!-- ===== Styles & polices ===== -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="preconnect" href="https://images.unsplash.com">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <link rel="stylesheet" href="./assets/css/sponsors.css">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-        <!-- ===== Données structurées Schema.org (SportsClub) ===== -->
-        <script type="application/ld+json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/site.css">
+    <script type="application/ld+json" id="ld-club">
+{
+    "@context": "https://schema.org",
+    "@graph": [
         {
-            "@context": "https://schema.org",
             "@type": "SportsClub",
+            "@id": "https://tc-batilly.fr/#club",
             "name": "Tennis Club de Batilly",
             "alternateName": "TC Batilly",
             "url": "https://tc-batilly.fr/",
             "logo": "https://tc-batilly.fr/assets/images/logo.jpg",
-            "image": "https://tc-batilly.fr/assets/images/logo.jpg",
-            "description": "Club de tennis convivial en Meurthe-et-Moselle proposant cours enfants et adultes, entraîneurs diplômés, tournois, stages et réservation de courts.",
+            "image": "https://tc-batilly.fr/assets/images/og-image.png",
+            "description": "Club de tennis à Batilly, en Meurthe-et-Moselle, depuis 1989 : adhésions, entraînements, tournois et stages.",
+            "foundingDate": "1989",
             "sport": "Tennis",
-            "email": "contact@tcbatilly.fr",
-            "telephone": "+33383000000",
+            "areaServed": "Meurthe-et-Moselle",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Rue des Sports",
                 "addressLocality": "Batilly",
                 "postalCode": "54980",
                 "addressRegion": "Meurthe-et-Moselle",
                 "addressCountry": "FR"
             },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 49.1828,
-                "longitude": 5.9889
-            },
-            "areaServed": "Meurthe-et-Moselle",
             "sameAs": [
-                "https://www.facebook.com",
-                "https://www.instagram.com",
                 "https://tenup.fft.fr/club/55540452"
             ],
             "potentialAction": {
                 "@type": "ReserveAction",
                 "target": "https://tenup.fft.fr/club/55540452/reservations"
             }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://tc-batilly.fr/#site",
+            "url": "https://tc-batilly.fr/",
+            "name": "Tennis Club de Batilly",
+            "inLanguage": "fr-FR",
+            "publisher": {
+                "@id": "https://tc-batilly.fr/#club"
+            }
         }
-        </script>
-    </head>
-    <body>
-        <header>
-            <div class="logo"><a href="#accueil" aria-label="Accueil - Tennis Club de Batilly"><img src="./assets/images/logo.jpg" alt="Logo du Tennis Club de Batilly" width="120" height="120"></a></div>
-            
-            <button class="menu-toggle" 
-                    aria-label="Ouvrir le menu de navigation" 
-                    aria-expanded="false" 
-                    aria-controls="main-navigation"
-                    type="button">
-                <span class="menu-toggle-bar" aria-hidden="true"></span>
-                <span class="menu-toggle-bar" aria-hidden="true"></span>
-                <span class="menu-toggle-bar" aria-hidden="true"></span>
-                <span class="sr-only">Menu</span>
-            </button>
-            
-            <div class="menu-overlay" aria-hidden="true"></div>
-            
-            <nav id="main-navigation" aria-label="Navigation principale">
-                <a href="#accueil" tabindex="-1">Accueil</a>
-                <a href="#qui-sommes-nous" tabindex="-1">Qui sommes-nous ?</a>
-                <a href="#tarifs" tabindex="-1">Tarifs</a>
-                <a href="#services" tabindex="-1">Services</a>
-                <a href="#agenda" tabindex="-1">Calendrier</a>
-                <a href="#actualites" tabindex="-1">Actualités</a>
-                <a href="#contact" tabindex="-1">Contact</a>
-                <a href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" class="mobile-reserve-btn" tabindex="-1">🎾 Réserver</a>
+    ]
+}
+    </script>
+</head>
+<body data-page="home">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="brand" href="index.html">
+                <img src="./assets/images/logo.jpg" alt="" width="52" height="52">
+                <span class="brand-name">Tennis Club<br>de Batilly</span>
+            </a>
+
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+
+            <nav class="main-nav" id="menu" aria-label="Navigation principale">
+                <a href="le-club.html">Le club</a>
+                <a href="offres.html">Offres</a>
+                <a href="calendrier.html">Calendrier</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="contact.html">Contact</a>
+                <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
             </nav>
-            
-            <div class="header-right">
-                <div class="social-links">
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
+        </div>
+    </header>
+
+    <main id="contenu">
+        <section class="hero" id="accueil" aria-labelledby="titre-accueil">
+            <div class="hero-inner">
+                <div class="hero-text">
+                    <h1 id="titre-accueil">Tennis Club de Batilly</h1>
+                    <p class="hero-since">Depuis 1989, à Batilly, en Meurthe-et-Moselle.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
+                        <a class="btn btn-outline" href="offres.html">Voir les offres</a>
+                    </div>
                 </div>
-                <a href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" class="btn-reserver">RÉSERVER</a>
+
+                <svg class="court" viewBox="-8 -8 376 796" aria-hidden="true" focusable="false">
+                    <path style="--i:0;--len:2280" d="M0 0H360V780H0Z"/>
+                    <path style="--i:1;--len:780" d="M45 0V780"/>
+                    <path style="--i:2;--len:780" d="M315 0V780"/>
+                    <path style="--i:3;--len:270" d="M45 180H315"/>
+                    <path style="--i:4;--len:270" d="M45 600H315"/>
+                    <path style="--i:5;--len:420" d="M180 180V600"/>
+                    <path style="--i:6;--len:14" d="M180 0V14"/>
+                    <path style="--i:6;--len:14" d="M180 766V780"/>
+                    <path class="net" d="M0 390H360"/>
+                    <circle class="ball" cx="250" cy="470" r="30"/>
+                    <path class="seam" d="M232 448C246 462 246 478 232 492"/>
+                    <path class="seam" d="M268 448C254 462 254 478 268 492"/>
+                </svg>
             </div>
-        </header>
-        
-        <!-- Modal Paramètres Cookies -->
-        <div class="cookie-modal" id="cookieModal" aria-hidden="true" role="dialog" aria-labelledby="cookieModalTitle">
-            <div class="cookie-modal-overlay"></div>
-            <div class="cookie-modal-content">
-                <div class="cookie-modal-header">
-                    <h3 id="cookieModalTitle">🍪 Gestion des cookies</h3>
-                    <button class="cookie-modal-close" aria-label="Fermer">×</button>
-                </div>
-                <div class="cookie-modal-body">
-                    <p class="cookie-intro">Nous utilisons des cookies pour améliorer votre expérience sur notre site. Vous pouvez choisir les cookies que vous acceptez.</p>
-                    
-                    <div class="cookie-category">
-                        <div class="cookie-category-header">
-                            <div class="cookie-category-info">
-                                <h4>Cookies nécessaires</h4>
-                                <p>Essentiels au fonctionnement du site. Ils ne peuvent pas être désactivés.</p>
-                            </div>
-                            <label class="cookie-switch disabled">
-                                <input type="checkbox" checked disabled>
-                                <span class="cookie-slider"></span>
-                            </label>
-                        </div>
-                    </div>
+        </section>
 
-                    <div class="cookie-category">
-                        <div class="cookie-category-header">
-                            <div class="cookie-category-info">
-                                <h4>Cookies analytiques</h4>
-                                <p>Nous aident à comprendre comment les visiteurs utilisent notre site.</p>
-                            </div>
-                            <label class="cookie-switch">
-                                <input type="checkbox" id="analyticsCookies">
-                                <span class="cookie-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="cookie-category">
-                        <div class="cookie-category-header">
-                            <div class="cookie-category-info">
-                                <h4>Cookies marketing</h4>
-                                <p>Utilisés pour afficher des publicités pertinentes.</p>
-                            </div>
-                            <label class="cookie-switch">
-                                <input type="checkbox" id="marketingCookies">
-                                <span class="cookie-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="cookie-category">
-                        <div class="cookie-category-header">
-                            <div class="cookie-category-info">
-                                <h4>Cookies de préférences</h4>
-                                <p>Permettent de mémoriser vos choix (langue, région, etc.).</p>
-                            </div>
-                            <label class="cookie-switch">
-                                <input type="checkbox" id="preferencesCookies">
-                                <span class="cookie-slider"></span>
-                            </label>
-                        </div>
-                    </div>
+        <section class="section partners-band" id="partenaires" aria-labelledby="titre-partenaires" data-section="sponsors" hidden>
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-partenaires">Partenaires</h2>
+                    <p class="head-note">Merci à celles et ceux qui soutiennent le club.</p>
                 </div>
-                <div class="cookie-modal-footer">
-                    <button class="cookie-btn-secondary" id="rejectAll">Tout refuser</button>
-                    <button class="cookie-btn-primary" id="acceptAll">Tout accepter</button>
-                    <button class="cookie-btn-primary" id="savePreferences">Enregistrer mes choix</button>
+                <div class="partners" id="partners-list"></div>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="titre-dates">
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-dates">Prochaines dates</h2>
+                    <a class="more" href="calendrier.html">Tout le calendrier</a>
                 </div>
+                <div class="tiles" id="next-events" aria-live="polite">
+                    <p class="empty">Chargement des dates.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tint pattern" aria-labelledby="titre-adherer">
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-adherer">Adhérer</h2>
+                    <a class="more" href="offres.html">Toutes les offres</a>
+                </div>
+                <div class="offer-cards" id="offers-teaser" data-limit="3" aria-live="polite">
+                    <p class="empty">Chargement des offres.</p>
+                </div>
+                <p class="note">Les adhésions se prennent sur Ten'Up.</p>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="titre-actus">
+            <div class="wrap">
+                <div class="section-head split">
+                    <h2 id="titre-actus">Actualités</h2>
+                    <a class="more" href="actualites.html">Toutes les actualités</a>
+                </div>
+                <div class="news-cards" id="news-teaser" data-limit="3" aria-live="polite">
+                    <p class="empty">Chargement des actualités.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="band on-navy" aria-labelledby="titre-band">
+            <div class="wrap band-inner">
+                <div>
+                    <h2 id="titre-band">Un court de libre ?</h2>
+                    <p>Les courts se réservent en ligne, sur Ten'Up.</p>
+                </div>
+                <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-next">
+            <div class="wrap footer-next-inner">
+                <p class="footer-next-label">Prochaine date</p>
+                <p class="footer-next-text" id="footer-next" aria-live="polite">Chargement.</p>
+                <a class="footer-next-link" href="calendrier.html">Voir le calendrier</a>
             </div>
         </div>
 
-        <!-- Bouton Scroll to Top -->
-        <button class="scroll-top" aria-label="Retour en haut" title="Retour en haut">
-            <svg class="scroll-top-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
-        </button>
-
-        <main>
-            <section id="accueil" class="hero">
-                <div class="hero-slider">
-                    <div class="hero-slide active">
-                        <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1920&h=1080&fit=crop&q=90" alt="Courts de tennis du Tennis Club de Batilly" width="1920" height="1080" fetchpriority="high" decoding="async">
-                    </div>
-                    <div class="hero-slide">
-                        <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=1920&h=1080&fit=crop&q=90" alt="Joueur de tennis en action au TC Batilly" width="1920" height="1080" loading="lazy" decoding="async">
-                    </div>
-                    <div class="hero-slide">
-                        <img src="https://images.unsplash.com/photo-1595435742656-5272d0b3fa82?w=1920&h=1080&fit=crop&q=90" alt="Balle de tennis sur un court du club" width="1920" height="1080" loading="lazy" decoding="async">
-                    </div>
+        <div class="wrap footer-grid">
+            <div class="footer-col footer-about">
+                <div class="footer-brand">
+                    <img src="./assets/images/logo.jpg" alt="" width="64" height="64">
+                    <span>Tennis Club<br>de Batilly</span>
                 </div>
-                
-                <div class="hero-overlay"></div>
-                
-                <div class="hero-content">                    
-                    <div class="hero-main">
-                        <p class="hero-subtitle">Site officiel</p>
-                        <h1>Tennis Club de Batilly</h1>
-                        <p class="hero-description">Découvrez notre club au cœur de la nature, où passion et convivialité se rencontrent sur nos courts de qualité. Rejoignez-nous pour vivre votre passion du tennis !</p>
-                    </div>
-                </div>
-            </section>
-
-            <div class="sponsors-ribbon" id="sponsors-ribbon" aria-label="Partenaires officiels">
-                <div class="sponsors-ribbon-track" id="sponsors-track"></div>
-            </div>
- 
-            <section id="qui-sommes-nous" class="about">
-                <div class="section-header-center">
-                    <h2>Qui sommes‑nous ?</h2>
-                    <p>Le TC Batilly est un club convivial qui propose des activités pour tous les âges</p>
-                </div>
-
-                <!-- Carousel de photos -->
-                <div class="photo-carousel">
-                    <div class="carousel-container">
-                        <div class="carousel-track">
-                            <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1200&h=800&fit=crop" alt="Vue aérienne des courts de tennis du TC Batilly" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=1200&h=800&fit=crop" alt="Joueur de tennis en action lors d'un match" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1595435742656-5272d0b3fa82?w=1200&h=800&fit=crop" alt="Balle de tennis posée sur un court" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1606506331881-df97a3b2e3b0?w=1200&h=800&fit=crop" alt="Séance d'entraînement de tennis au club" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1542144582-1ba00456b5e3?w=1200&h=800&fit=crop" alt="Match de tennis sur terre battue" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1617883861744-64c0c0c26f94?w=1200&h=800&fit=crop" alt="Court de tennis extérieur du TC Batilly" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?w=1200&h=800&fit=crop" alt="Raquette et balles de tennis" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1593798042983-e6cf39ff8acb?w=1200&h=800&fit=crop" alt="Joueur de tennis au service" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1580662984216-6b89d7c68f9b?w=1200&h=800&fit=crop" alt="Terrain de tennis vu du dessus" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                            <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=1200&h=800&fit=crop" alt="Ambiance conviviale au club de tennis" class="carousel-img" width="1200" height="800" loading="lazy" decoding="async">
-                        </div>
-                    </div>
-                    <div class="carousel-dots"></div>
-                </div>
-        
-                <div class="about-content">
-                    <div class="mission">
-                        <h3>Notre mission</h3>
-                        <ul>
-                            <li>Favoriser la pratique du tennis en amateur et compétition.</li>
-                            <li>Former les jeunes avec des entraîneurs diplômés.</li>
-                            <li>Organiser des événements ouverts à la communauté.</li>
-                        </ul>
-                    </div>
-            
-                    <div class="history">
-                        <h3>Historique rapide</h3>
-                        <p>Fondé il y a plus de 30 ans, le club a grandi autour d'une équipe de bénévoles passionnés et d'un encadrement professionnel.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section Tarifs -->
-            <section id="tarifs" class="pricing">
-                <div class="section-header-center">
-                    <h2>Nos Tarifs</h2>
-                    <p>Des formules adaptées à tous les profils et tous les budgets. L'adhésion au club inclut l'accès aux installations, la participation aux événements et des réductions sur les cours.</p>
-                </div>
-                
-                <div class="pricing-grid" id="pricing-container">
-                    <p class="loading-placeholder">Chargement des tarifs...</p>
-                </div>
-
-                <div class="pricing-footer">
-                    <p><strong>💳 Modes de paiement :</strong> Espèces, chèque, virement bancaire ou en 3 fois sans frais</p>
-                    <p><strong>ℹ️ À savoir :</strong> Licence FFT non incluse (30€/an). Réductions étudiants et demandeurs d'emploi sur présentation de justificatif.</p>
-                </div>
-            </section>
-        
-            <section id="services" class="services-list">
-                <div class="section-header-center">
-                    <h2>Nos Services</h2>
-                    <p>Découvrez l'ensemble de nos prestations pour tous les niveaux</p>
-                </div>
-        
-                <div class="service-grid" id="services-container">
-                    <p class="loading-placeholder">Chargement des services...</p>
-                </div>
-            </section>
-        
-            <section id="coachs" class="coaches">
-                <div class="section-header-center">
-                    <h2>Nos Entraîneurs</h2>
-                    <p>Une équipe de professionnels diplômés et passionnés</p>
-                </div>
-                <div class="coach-grid" id="coaches-container">
-                    <p class="loading-placeholder">Chargement des entraîneurs...</p>
-                </div>
-            </section>
-        
-            <!-- Calendrier (correspond au lien "Agenda") -->
-            <section id="agenda" class="agenda">
-                <div class="section-header-center">
-                    <h2>Calendrier</h2>
-                    <p>Retrouvez nos horaires et tous les événements du club - <a href="#" class="calendar-download-link" onclick="event.preventDefault(); downloadCalendar();">Télécharger le calendrier (.ics)</a></p>
-                </div>
-
-                <!-- Tabs pour Sportif / Associatif -->
-                <div class="calendar-tabs-front">
-                    <button class="calendar-tab-front active" data-tab="all">Tous les événements</button>
-                    <button class="calendar-tab-front" data-tab="sportif">Sportif</button>
-                    <button class="calendar-tab-front" data-tab="associatif">Associatif</button>
-                </div>
-
-                <!-- Calendrier visuel -->
-                <div class="calendar-wrapper-front">
-                    <div class="calendar-header-front">
-                        <button class="calendar-nav-btn-front" id="prevMonthFront">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"></polyline>
-                            </svg>
-                        </button>
-                        <h3 id="currentMonthYearFront"></h3>
-                        <button class="calendar-nav-btn-front" id="nextMonthFront">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="calendar-grid-front" id="calendarGridFront"></div>
-                </div>
-            </section>
-
-            <!-- Modal Détails Événement -->
-            <div class="event-modal" id="eventModal" aria-hidden="true" role="dialog" aria-labelledby="eventModalTitle">
-                <div class="event-modal-content">
-                    <div class="event-modal-header">
-                        <h3 id="eventModalTitle">Titre de l'événement</h3>
-                        <button class="event-modal-close" id="eventModalClose" aria-label="Fermer">×</button>
-                    </div>
-                    <div class="event-modal-body">
-                        <div class="event-modal-date">
-                            <div class="event-modal-date-icon">📅</div>
-                            <div class="event-modal-date-info">
-                                <h4 id="eventModalDate">Date</h4>
-                                <p id="eventModalTime">Heure</p>
-                            </div>
-                        </div>
-                        <div class="event-modal-description" id="eventModalDescription">
-                            Description de l'événement
-                        </div>
-                        <span class="event-modal-category" id="eventModalCategory">Catégorie</span>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Actualités (correspond au lien "Actualités") -->
-            <section id="actualites" class="news">
-                <div class="section-header-center">
-                    <h2>Actualités du Club</h2>
-                    <p>Restez informés des dernières nouvelles et événements du TC Batilly</p>
-                </div>
-        
-                <div class="news-list" id="news-container"></div>
-            </section>
-
-            <!-- Contact (correspond au lien "Contact" du header) -->
-            <section id="contact" class="contact">
-                <div class="section-header-center">
-                    <h2>Contactez-nous</h2>
-                    <p>Pour toute question, écrivez-nous ou utilisez le formulaire ci‑dessous</p>
-                </div>
-
-                <div class="contact-container">
-                    <form class="contact-form" action="#" method="post">
-                        <label for="nom">Nom</label>
-                        <input id="nom" name="nom" type="text" required>
-            
-                        <label for="email">Email</label>
-                        <input id="email" name="email" type="email" required>
-            
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-            
-                        <button type="submit" class="btn-submit">Envoyer</button>
-                    </form>
-
-                    <div class="contact-info">
-                        <div class="info-row">
-                            <div class="info-block">
-                                <h3>📍 Notre Adresse</h3>
-                                <p class="address">
-                                    Tennis Club Batilly<br>
-                                    Rue des Sports, 54980 Batilly<br>
-                                    FRANCE
-                                </p>
-                            </div>
-
-                            <div class="contact-buttons-round">
-                                <a href="mailto:contact@tcbatilly.fr" class="contact-btn-round email-btn" title="Envoyer un email">
-                                    <span class="icon">✉️</span>
-                                </a>
-                                <a href="tel:+33383000000" class="contact-btn-round phone-btn" title="Appeler">
-                                    <span class="icon">📞</span>
-                                </a>
-                                <a href="https://maps.google.com/?q=Tennis+Club+Batilly+54980" target="_blank" class="contact-btn-round map-btn" title="Voir sur Maps">
-                                    <span class="icon">🗺️</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="map-container">
-                            <iframe
-                                title="Localisation du Tennis Club de Batilly sur Google Maps"
-                                src="https://maps.google.com/maps?q=Mairie+Batilly+54980+France&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                width="100%"
-                                height="300"
-                                style="border:0; border-radius:16px;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        
-        </main>
-
-        <footer class="site-footer">
-
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <h3>Tennis Club de Batilly</h3>
-                    <p>Un club convivial au cœur de la Meurthe-et-Moselle qui accompagne les joueurs, du loisir à la compétition.</p>
-                    <div class="footer-contact">
-                        <a href="mailto:contact@tcbatilly.fr">contact@tcbatilly.fr</a>
-                        <a href="tel:+33383000000">+33 3 83 00 00 00</a>
-                        <a href="https://maps.google.com/?q=Tennis+Club+Batilly+54980" target="_blank">Rue des Sports, 54980 Batilly</a>
-                    </div>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="#accueil">Accueil</a></li>
-                        <li><a href="#qui-sommes-nous">Qui sommes-nous</a></li>
-                        <li><a href="#tarifs">Tarifs</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#actualites">Actualités</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <li><a href="mentions-legales.html">Mentions légales</a></li>
-                        <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Informations utiles</h4>
-                    <ul>
-                        <li><a href="https://tenup.fft.fr/club/55540452/reservations" target="_blank">Réserver un court</a></li>
-                        <li><a href="https://tenup.fft.fr/club/55540452/offres" target="_blank">Nos offres FFT</a></li>
-                        <li><a href="#services">Stages & formations</a></li>
-                        <li><a href="#actualites">Agenda du club</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Restez informés</h4>
-                    <p>Recevez les actualités du club, les stages et les tournois à venir.</p>
-                    <form class="footer-newsletter" action="#" method="post" onsubmit="return false;">
-                        <input type="email" placeholder="Votre adresse e-mail" aria-label="Adresse e-mail">
-                        <button type="submit">S'inscrire</button>
-                    </form>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        <a href="mailto:contact@tcbatilly.fr" aria-label="Email">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                                <path d="m22 7-10 5L2 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                <p>Association de tennis à Batilly, en Meurthe-et-Moselle, depuis 1989. Affiliée à la Fédération française de tennis.</p>
+                <a class="btn btn-yellow" data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; <span id="currentYear"></span> Tennis Club de Batilly. Tous droits réservés.</p>
-                <div class="footer-bottom-links">
-                    <a href="mentions-legales.html">Mentions légales</a>
-                    <a href="politique-confidentialite.html">Politique de confidentialité</a>
-                </div>
+            <nav class="footer-col" aria-labelledby="footer-site">
+                <h2 id="footer-site">Le site</h2>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="le-club.html">Le club</a></li>
+                    <li><a href="offres.html">Offres</a></li>
+                    <li><a href="calendrier.html">Calendrier</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-labelledby="footer-play">
+                <h2 id="footer-play">Jouer</h2>
+                <ul>
+                    <li><a data-link="reservation" href="https://tenup.fft.fr/club/55540452/reservations" target="_blank" rel="noopener">Réserver un court</a></li>
+                    <li><a data-link="offers" href="https://tenup.fft.fr/club/55540452/offres" target="_blank" rel="noopener">Adhérer sur Ten'Up</a></li>
+                    <li><a href="offres.html">Les offres de la saison</a></li>
+                    <li><a href="calendrier.html">Tournois et stages</a></li>
+                    <li><a href="https://tenup.fft.fr/club/55540452" target="_blank" rel="noopener">Le club sur Ten'Up</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col" aria-labelledby="footer-find">
+                <h2 id="footer-find">Nous trouver</h2>
+                <ul class="footer-contact" id="footer-contact">
+                    <li id="footer-address">Batilly (54980)</li>
+                    <li><a id="footer-route" href="https://www.google.com/maps/search/?api=1&amp;query=Batilly+54980" target="_blank" rel="noopener">Itinéraire</a></li>
+                </ul>
             </div>
-        </footer>
-        
-        <script src="./assets/js/script.js"></script>
-    </body>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="wrap footer-bottom-inner">
+                <p>&copy; <span id="year"></span> Tennis Club de Batilly</p>
+                <ul>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="#contenu">Haut de page</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/site.js" defer></script>
+</body>
 </html>

@@ -8,7 +8,7 @@ require_once '../backend/config/database.php';
 require_admin();
 
 $db = get_db();
-$page_title = 'Paramètres & Utilisateurs';
+$page_title = 'Réglages et comptes';
 $page_description = 'Configurer le site et administrer les comptes.';
 
 $success_message = isset($_GET['success']) ? htmlspecialchars($_GET['success']) : '';
@@ -189,9 +189,21 @@ $users_tab_active = $active_tab === 'users';
 
     <div class="tab-panels">
         <section class="tab-panel" id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" aria-hidden="<?php echo $settings_tab_active ? 'false' : 'true'; ?>">
-            <form method="POST" class="panel-grid" aria-describedby="settings-help">
+            <form method="POST" class="panel-grid">
                 <input type="hidden" name="action" value="update_settings">
                 <div class="panel-grid two-columns">
+                    <?php
+                        $setting_labels = [
+                            'site_name' => 'Nom du club',
+                            'address' => 'Adresse',
+                            'contact_email' => 'E-mail de contact',
+                            'contact_phone' => 'Téléphone',
+                            'facebook_url' => 'Page Facebook',
+                            'instagram_url' => 'Compte Instagram',
+                            'reservation_url' => 'Lien de réservation',
+                            'offers_url' => 'Lien des offres',
+                        ];
+                    ?>
                     <?php foreach ($settings as $setting): ?>
                         <?php
                             $key = $setting['setting_key'];
@@ -200,7 +212,7 @@ $users_tab_active = $active_tab === 'users';
                             $description = $setting['description'];
                         ?>
                         <div class="form-group">
-                            <label for="setting_<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars(str_replace('_', ' ', ucfirst($key))); ?></label>
+                            <label for="setting_<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($setting_labels[$key] ?? str_replace('_', ' ', ucfirst($key))); ?></label>
                             <?php if ($type === 'textarea' || strlen((string)$value) > 120): ?>
                                 <textarea id="setting_<?php echo htmlspecialchars($key); ?>" name="settings[<?php echo htmlspecialchars($key); ?>]" rows="4"><?php echo htmlspecialchars($value); ?></textarea>
                             <?php elseif ($type === 'boolean'): ?>
@@ -214,14 +226,10 @@ $users_tab_active = $active_tab === 'users';
                             <?php else: ?>
                                 <input type="text" id="setting_<?php echo htmlspecialchars($key); ?>" name="settings[<?php echo htmlspecialchars($key); ?>]" value="<?php echo htmlspecialchars($value); ?>">
                             <?php endif; ?>
-                            <?php if (!empty($description)): ?>
-                                <small><?php echo htmlspecialchars($description); ?></small>
-                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
 
-                <p id="settings-help" style="color:var(--ink-muted);font-size:13px;">Ces paramètres impactent immédiatement le site public.</p>
 
                 <div class="form-actions" style="margin-top: 12px;">
                     <button type="submit" class="btn-primary">Enregistrer les paramètres</button>

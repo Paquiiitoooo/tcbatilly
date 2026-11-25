@@ -8,7 +8,7 @@ require_once '../backend/config/database.php';
 require_admin();
 
 $db = get_db();
-$page_title = 'Historique des actions';
+$page_title = 'Historique';
 $page_description = 'Consultez l\'ensemble des opérations réalisées dans l\'espace d\'administration.';
 
 $per_page = 50;

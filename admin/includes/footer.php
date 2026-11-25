@@ -1,8 +1,8 @@
             </div>
 
             <footer class="content-footer">
-                <p>&copy; <?php echo date('Y'); ?> Tennis Club de Batilly</p>
-                <p>Back-office du site</p>
+                <p>Tennis Club de Batilly, depuis 1989</p>
+                <p><?php echo date('Y'); ?></p>
             </footer>
         </main>
     </div>

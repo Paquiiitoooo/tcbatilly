@@ -5,24 +5,24 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 $nav_groups = [
     'Pilotage' => [
-        ['index.php', 'Tableau de bord', 'dashboard'],
+        ['index.php', 'Tableau de bord'],
     ],
-    'Contenus du site' => [
-        ['events.php', 'Événements', 'calendar'],
-        ['calendar.php', 'Calendrier', 'grid'],
-        ['news.php', 'Actualités', 'news'],
-        ['pricing.php', 'Tarifs', 'pricing'],
-        ['coaches.php', 'Entraîneurs', 'coaches'],
-        ['services.php', 'Services', 'services'],
-        ['sponsors.php', 'Sponsors', 'sponsors'],
-        ['polls.php', 'Sondages', 'poll'],
+    'Site du club' => [
+        ['events.php', 'Événements'],
+        ['calendar.php', 'Calendrier'],
+        ['news.php', 'Actualités'],
+        ['pricing.php', 'Tarifs'],
+        ['coaches.php', 'Entraîneurs'],
+        ['services.php', 'Services'],
+        ['sponsors.php', 'Sponsors'],
+        ['polls.php', 'Sondages'],
     ],
 ];
 
 if (is_admin()) {
     $nav_groups['Administration'] = [
-        ['settings.php', 'Paramètres et utilisateurs', 'settings'],
-        ['logs.php', 'Historique', 'logs'],
+        ['settings.php', 'Réglages et comptes'],
+        ['logs.php', 'Historique'],
     ];
 }
 ?>
@@ -36,7 +36,7 @@ if (is_admin()) {
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
@@ -46,7 +46,7 @@ if (is_admin()) {
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <img class="brand-logo" src="../assets/images/logo.jpg" alt="" width="42" height="42">
+                    <img class="brand-logo" src="../assets/images/logo.jpg" alt="" width="64" height="64">
                     <div class="brand-text">
                         <strong>Administration</strong>
                         <span>Tennis Club de Batilly</span>
@@ -57,60 +57,40 @@ if (is_admin()) {
             <nav class="sidebar-nav" aria-label="Navigation principale">
                 <?php foreach ($nav_groups as $group_title => $items): ?>
                     <p class="nav-section-title"><?php echo $group_title; ?></p>
-                    <?php foreach ($items as [$file, $label, $icon]): ?>
-                        <a href="<?php echo $file; ?>" class="nav-item<?php echo $current_page === $file ? ' active' : ''; ?>"<?php echo $current_page === $file ? ' aria-current="page"' : ''; ?>>
-                            <?php echo admin_icon($icon, 19); ?>
-                            <span><?php echo $label; ?></span>
-                        </a>
+                    <?php foreach ($items as [$file, $label]): ?>
+                        <a href="<?php echo $file; ?>" class="nav-item<?php echo $current_page === $file ? ' active' : ''; ?>"<?php echo $current_page === $file ? ' aria-current="page"' : ''; ?>><?php echo $label; ?></a>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
             </nav>
 
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="user-avatar"><?php echo htmlspecialchars(strtoupper(substr($_SESSION['username'], 0, 2))); ?></div>
                     <div class="user-details">
                         <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>
                         <span><?php echo $_SESSION['user_role'] === 'admin' ? 'Administrateur' : 'Éditeur'; ?></span>
                     </div>
                 </div>
-                <a href="logout.php" class="btn-logout" title="Se déconnecter" aria-label="Se déconnecter">
-                    <?php echo admin_icon('log-out', 19); ?>
-                </a>
+                <a href="logout.php" class="btn-logout">Se déconnecter</a>
             </div>
         </aside>
 
         <main class="main-content">
             <header class="content-header">
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le menu" type="button">
-                    <?php echo admin_icon('menu', 20); ?>
-                </button>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le menu" type="button">Menu</button>
 
                 <div class="header-left">
                     <h1><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Tableau de bord'; ?></h1>
-                    <?php if (isset($page_description)): ?>
-                        <p><?php echo htmlspecialchars($page_description); ?></p>
-                    <?php endif; ?>
                 </div>
 
-                <a href="../index.html" target="_blank" rel="noopener" class="btn-secondary btn-view-site">
-                    <?php echo admin_icon('globe', 17); ?>
-                    <span>Voir le site</span>
-                </a>
+                <a href="../index.html" target="_blank" rel="noopener" class="btn-view-site">Voir le site</a>
             </header>
 
             <?php if (isset($_GET['success'])): ?>
-                <div class="alert alert-success" role="status">
-                    <?php echo admin_icon('check-circle', 20); ?>
-                    <span><?php echo htmlspecialchars($_GET['success']); ?></span>
-                </div>
+                <div class="alert alert-success" role="status"><?php echo htmlspecialchars($_GET['success']); ?></div>
             <?php endif; ?>
 
             <?php if (isset($_GET['error'])): ?>
-                <div class="alert alert-error" role="alert">
-                    <?php echo admin_icon('alert', 20); ?>
-                    <span><?php echo htmlspecialchars($_GET['error']); ?></span>
-                </div>
+                <div class="alert alert-error" role="alert"><?php echo htmlspecialchars($_GET['error']); ?></div>
             <?php endif; ?>
 
             <div class="content-body">

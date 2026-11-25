@@ -9,7 +9,6 @@ require_login();
 
 $db = get_db();
 $page_title = 'Tableau de bord';
-$page_description = 'Ce qui est en ligne sur le site du club et ce qui vient de changer.';
 
 $count_content = static function (PDO $db, string $table): array {
     try {
@@ -23,19 +22,18 @@ $count_content = static function (PDO $db, string $table): array {
 $content_rows = [
     ['events.php', 'Événements', $count_content($db, 'events')],
     ['news.php', 'Actualités', $count_content($db, 'news')],
-    ['pricing.php', 'Formules tarifaires', $count_content($db, 'pricing')],
+    ['pricing.php', 'Tarifs', $count_content($db, 'pricing')],
     ['coaches.php', 'Entraîneurs', $count_content($db, 'coaches')],
     ['services.php', 'Services', $count_content($db, 'services')],
     ['sponsors.php', 'Sponsors', $count_content($db, 'sponsors')],
+    ['polls.php', 'Sondages', $count_content($db, 'polls')],
 ];
 
-$poll_summary = null;
+$poll_votes = null;
 try {
-    $polls = $count_content($db, 'polls');
-    $votes = (int) $db->query('SELECT COUNT(*) FROM poll_votes')->fetchColumn();
-    $poll_summary = ['open' => $polls['active'], 'votes' => $votes];
+    $poll_votes = (int) $db->query('SELECT COUNT(*) FROM poll_votes')->fetchColumn();
 } catch (PDOException $e) {
-    $poll_summary = null;
+    $poll_votes = null;
 }
 
 $accounts = is_admin()
@@ -48,7 +46,7 @@ $activity_stmt = $db->prepare("
     JOIN users u ON al.user_id = u.id
     " . (is_admin() ? '' : 'WHERE al.user_id = ?') . "
     ORDER BY al.created_at DESC
-    LIMIT 7
+    LIMIT 8
 ");
 $activity_stmt->execute(is_admin() ? [] : [(int) $_SESSION['user_id']]);
 $recent_activities = $activity_stmt->fetchAll();
@@ -66,81 +64,66 @@ $entities = [
     'service' => 'un service',
     'pricing' => 'un tarif',
     'user' => 'un compte',
-    'setting' => 'un paramètre',
+    'setting' => 'un réglage',
 ];
+
+$days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+$months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+$today_label = $days[(int) date('w')] . ' ' . date('j') . ' ' . $months[(int) date('n') - 1] . ' ' . date('Y');
 
 include 'includes/header.php';
 ?>
 
+<p class="board-date"><?php echo $today_label; ?></p>
+
 <div class="quick-actions">
-    <a class="btn-primary" href="news.php?action=create"><?php echo admin_icon('plus', 17); ?><span>Publier une actualité</span></a>
-    <a class="btn-secondary" href="events.php?action=create"><?php echo admin_icon('plus', 17); ?><span>Ajouter un événement</span></a>
-    <a class="btn-secondary" href="polls.php#poll-form"><?php echo admin_icon('plus', 17); ?><span>Créer un sondage</span></a>
-    <a class="btn-secondary" href="sponsors.php?action=create"><?php echo admin_icon('plus', 17); ?><span>Ajouter un sponsor</span></a>
+    <a class="btn-primary" href="news.php?action=create">Nouvelle actualité</a>
+    <a class="btn-secondary" href="events.php?action=create">Nouvel événement</a>
+    <a class="btn-secondary" href="polls.php#poll-form">Nouveau sondage</a>
+    <a class="btn-secondary" href="sponsors.php?action=create">Nouveau sponsor</a>
 </div>
 
 <div class="dashboard-layout">
     <section class="dash-block" aria-labelledby="overview-title">
-        <div class="dash-block-head">
-            <div>
-                <h2 id="overview-title">Contenu du site</h2>
-                <p>Éléments en ligne sur le total créé.</p>
-            </div>
+        <h2 id="overview-title">Sur le site</h2>
+
+        <div class="table-container">
+            <table class="board-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Rubrique</th>
+                        <th scope="col" class="num">En ligne</th>
+                        <th scope="col" class="num">Total</th>
+                        <th scope="col"><span class="visually-hidden">Gérer</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($content_rows as [$href, $label, $counts]): ?>
+                        <tr>
+                            <td><?php echo $label; ?></td>
+                            <td class="num"><?php echo $counts['active']; ?></td>
+                            <td class="num dim"><?php echo $counts['total']; ?></td>
+                            <td class="go"><a href="<?php echo $href; ?>">Gérer</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
 
-        <ul class="score-list">
-            <?php foreach ($content_rows as [$href, $label, $counts]): ?>
-                <li>
-                    <a class="score-row" href="<?php echo $href; ?>">
-                        <span class="score-label"><strong><?php echo $label; ?></strong></span>
-                        <span class="score-figure"><?php echo $counts['active']; ?><i>/<?php echo $counts['total']; ?></i></span>
-                        <?php echo admin_icon('chevron-right', 18, 'score-go'); ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-
-            <?php if ($poll_summary !== null): ?>
-                <li>
-                    <a class="score-row" href="polls.php">
-                        <span class="score-label">
-                            <strong>Sondages</strong>
-                            <span>votes reçus, <?php echo $poll_summary['open']; ?> sondage<?php echo $poll_summary['open'] > 1 ? 's' : ''; ?> ouvert<?php echo $poll_summary['open'] > 1 ? 's' : ''; ?></span>
-                        </span>
-                        <span class="score-figure"><?php echo $poll_summary['votes']; ?></span>
-                        <?php echo admin_icon('chevron-right', 18, 'score-go'); ?>
-                    </a>
-                </li>
-            <?php endif; ?>
-
-            <?php if ($accounts !== null): ?>
-                <li>
-                    <a class="score-row" href="settings.php">
-                        <span class="score-label">
-                            <strong>Comptes</strong>
-                            <span>administrateurs / comptes</span>
-                        </span>
-                        <span class="score-figure"><?php echo (int) $accounts['admins']; ?><i>/<?php echo (int) $accounts['total']; ?></i></span>
-                        <?php echo admin_icon('chevron-right', 18, 'score-go'); ?>
-                    </a>
-                </li>
-            <?php endif; ?>
-        </ul>
+        <?php if ($poll_votes !== null): ?>
+            <p class="board-note"><?php echo $poll_votes; ?> vote<?php echo $poll_votes > 1 ? 's' : ''; ?> reçu<?php echo $poll_votes > 1 ? 's' : ''; ?> dans les sondages. <a href="polls.php?tab=results">Voir les résultats</a></p>
+        <?php endif; ?>
+        <?php if ($accounts !== null): ?>
+            <p class="board-note"><?php echo (int) $accounts['total']; ?> compte<?php echo $accounts['total'] > 1 ? 's' : ''; ?>, dont <?php echo (int) $accounts['admins']; ?> administrateur<?php echo $accounts['admins'] > 1 ? 's' : ''; ?>. <a href="settings.php">Gérer les comptes</a></p>
+        <?php endif; ?>
     </section>
 
     <section class="dash-block" aria-labelledby="activity-title">
-        <div class="dash-block-head">
-            <div>
-                <h2 id="activity-title">Dernières actions</h2>
-                <p>Ce qui a été modifié dans l'administration.</p>
-            </div>
-            <?php if (is_admin()): ?>
-                <a href="logs.php">Tout voir</a>
-            <?php endif; ?>
-        </div>
+        <h2 id="activity-title">Dernières actions</h2>
 
         <div class="activity-list">
             <?php if (empty($recent_activities)): ?>
-                <p class="activity-empty">Aucune action pour le moment.</p>
+                <p class="activity-empty">Rien pour le moment.</p>
             <?php else: ?>
                 <?php foreach ($recent_activities as $activity): ?>
                     <?php
@@ -154,20 +137,18 @@ include 'includes/header.php';
                     }
                     ?>
                     <div class="activity-item">
-                        <time class="activity-time" datetime="<?php echo htmlspecialchars($activity['created_at']); ?>">
-                            <?php echo format_date($activity['created_at'], 'd/m H:i'); ?>
-                        </time>
-                        <div class="activity-details">
-                            <strong><?php echo htmlspecialchars($activity['username']); ?></strong>
-                            <?php echo $sentence; ?>
-                            <?php if ($activity['details']): ?>
-                                <span class="activity-name"><?php echo htmlspecialchars($activity['details']); ?></span>
-                            <?php endif; ?>
-                        </div>
+                        <time class="activity-time" datetime="<?php echo htmlspecialchars($activity['created_at']); ?>"><?php echo format_date($activity['created_at'], 'd/m à H:i'); ?></time>
+                        <strong><?php echo htmlspecialchars($activity['username']); ?></strong> <?php echo $sentence; ?>
+                        <?php if ($activity['details']): ?>
+                            <span class="activity-name"><?php echo htmlspecialchars($activity['details']); ?></span>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+        <?php if (is_admin()): ?>
+            <p class="board-note"><a href="logs.php">Tout l'historique</a></p>
+        <?php endif; ?>
     </section>
 </div>
 
