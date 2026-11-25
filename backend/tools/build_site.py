@@ -129,7 +129,7 @@ def main():
             content = content.replace("{{partners}}", partners)
         elif meta.get("partners") != "none":
             content = content + "\n\n" + partners
-        url = BASE_URL if out_name == "index.html" else BASE_URL + out_name
+        url = BASE_URL if out_name == "index.html" else BASE_URL + out_name.removesuffix(".html")
 
         replacements = {
             "{{title}}": meta["title"],

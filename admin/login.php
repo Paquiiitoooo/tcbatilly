@@ -374,7 +374,7 @@ $debug_code = $_SESSION['two_factor_debug_code'] ?? null;
                     <?php if ($step === 'login'): ?>
                         <a href="forgot_password.php">Mot de passe oublié ?</a>
                     <?php endif; ?>
-                    <a href="../index.html">Retour au site</a>
+                    <a href="../">Retour au site</a>
                 </div>
             </div>
         </main>

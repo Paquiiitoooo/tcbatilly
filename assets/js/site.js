@@ -382,7 +382,7 @@
                 box.replaceChildren(h('p', { class: 'empty', text: 'Aucune date à venir pour le moment.' }));
                 return;
             }
-            box.replaceChildren(...upcoming.map((event) => h('a', { class: 'tile', href: 'calendrier.html' },
+            box.replaceChildren(...upcoming.map((event) => h('a', { class: 'tile', href: '/calendrier' },
                 h('div', { class: 'tile-date' }, h('strong', { text: dayNumber(event.start) }), h('span', { text: MONTHS_SHORT[event.start.getMonth()] })),
                 h('h3', { text: event.title }),
                 h('p', { text: whenText(event) }),

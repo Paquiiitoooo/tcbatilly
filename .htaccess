@@ -26,6 +26,15 @@
     RewriteCond %{THE_REQUEST} \s/index\.html[\s?]
     RewriteRule ^index\.html$ / [L,R=301]
 
+    # Adresses sans .html : /offres.html redirige vers /offres, et /offres sert offres.html
+    RewriteCond %{THE_REQUEST} \s/+(le-club|offres|calendrier|actualites|contact|mentions-legales|politique-confidentialite)\.html[\s?]
+    RewriteRule ^(le-club|offres|calendrier|actualites|contact|mentions-legales|politique-confidentialite)\.html$ /$1 [L,R=301]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^(le-club|offres|calendrier|actualites|contact|mentions-legales|politique-confidentialite)$ $1.html [L]
+
     # Bloquer l'accès aux fichiers sensibles
     RewriteRule ^\.env$ - [F,L]
     RewriteRule ^\.git - [F,L]

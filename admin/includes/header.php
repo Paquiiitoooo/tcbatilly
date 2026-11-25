@@ -84,7 +84,7 @@ if (is_admin()) {
                         <h1><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Tableau de bord'; ?></h1>
                     </div>
 
-                    <a href="../index.html" target="_blank" rel="noopener" class="btn-view-site">Voir le site</a>
+                    <a href="../" target="_blank" rel="noopener" class="btn-view-site">Voir le site</a>
                 </header>
             </div>
 

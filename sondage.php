@@ -282,11 +282,11 @@ if ($poll) {
         <?php if (!$poll): ?>
             <h1>Pas de sondage en cours</h1>
             <p class="intro">Aucun vote n'est ouvert pour le moment.</p>
-            <a class="back" href="/index.html">Retour au site</a>
+            <a class="back" href="/">Retour au site</a>
         <?php elseif ($success): ?>
             <h1>Vote enregistré</h1>
             <p class="intro">Merci. Votre choix pour « <?php echo htmlspecialchars($poll['title']); ?> » est pris en compte.</p>
-            <a class="back" href="/index.html">Retour au site</a>
+            <a class="back" href="/">Retour au site</a>
         <?php else: ?>
             <h1><?php echo htmlspecialchars($poll['title']); ?></h1>
             <?php if (!empty($poll['description'])): ?>
@@ -345,7 +345,7 @@ if ($poll) {
 
                     <p class="privacy-note">
                         Le numéro de licence sert à vérifier votre adhésion et à éviter les doubles votes. Il est conservé le temps du sondage.
-                        <a href="/politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
+                        <a href="/politique-confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a>
                     </p>
                 </form>
 
