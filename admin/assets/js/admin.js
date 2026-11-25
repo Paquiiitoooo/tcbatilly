@@ -67,7 +67,7 @@ function toggleSidebar() {
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
             item.addEventListener('click', function() {
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 901) {
                     sidebar.classList.remove('mobile-open');
                     if (sidebarOverlay) {
                         sidebarOverlay.classList.remove('active');
@@ -79,7 +79,7 @@ function toggleSidebar() {
         
         // Gérer le resize
         function handleResize() {
-            if (window.innerWidth >= 768) {
+            if (window.innerWidth >= 901) {
                 sidebar.classList.remove('mobile-open');
                 if (sidebarOverlay) {
                     sidebarOverlay.classList.remove('active');
@@ -490,3 +490,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
+// Tableaux en fiches sur téléphone : chaque cellule reprend le titre de sa colonne
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('table').forEach(function(table) {
+        const labels = Array.from(table.querySelectorAll('thead th')).map(function(th) {
+            return th.textContent.trim();
+        });
+        table.querySelectorAll('tbody tr').forEach(function(row) {
+            Array.from(row.children).forEach(function(cell, index) {
+                if (cell.tagName === 'TD' && !cell.hasAttribute('data-label')) {
+                    cell.setAttribute('data-label', labels[index] || '');
+                }
+            });
+        });
+    });
+});
