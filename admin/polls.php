@@ -426,9 +426,9 @@ include 'includes/header.php';
             <?php if (empty($polls)): ?>
                 <p style="color:var(--ink-muted);">Créez d'abord un sondage dans l'onglet « Sondages ».</p>
             <?php else: ?>
-                <form method="GET" style="margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                <form method="GET" class="select-bar">
                     <input type="hidden" name="tab" value="options">
-                    <label for="poll-select-options" style="font-weight:600;">Sondage :</label>
+                    <label for="poll-select-options">Sondage</label>
                     <select id="poll-select-options" name="poll" onchange="this.form.submit()">
                         <?php foreach ($polls as $poll): ?>
                             <option value="<?php echo $poll['id']; ?>" <?php echo $poll['id'] === $current_poll_id ? 'selected' : ''; ?>><?php echo htmlspecialchars($poll['title']); ?></option>
@@ -609,9 +609,9 @@ include 'includes/header.php';
             <?php if (empty($polls)): ?>
                 <p style="color:var(--ink-muted);">Créez d'abord un sondage dans l'onglet « Sondages ».</p>
             <?php else: ?>
-                <form method="GET" style="margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                <form method="GET" class="select-bar">
                     <input type="hidden" name="tab" value="results">
-                    <label for="poll-select-results" style="font-weight:600;">Sondage :</label>
+                    <label for="poll-select-results">Sondage</label>
                     <select id="poll-select-results" name="poll" onchange="this.form.submit()">
                         <?php foreach ($polls as $poll): ?>
                             <option value="<?php echo $poll['id']; ?>" <?php echo $poll['id'] === $current_poll_id ? 'selected' : ''; ?>><?php echo htmlspecialchars($poll['title']); ?></option>

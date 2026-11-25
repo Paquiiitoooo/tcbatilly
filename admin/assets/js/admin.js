@@ -42,11 +42,12 @@ function toggleSidebar() {
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         
-        if (!sidebar || !sidebarToggle) {
+        if (!sidebar || !sidebarToggle || sidebarToggle.dataset.bound === '1') {
             return;
         }
+        sidebarToggle.dataset.bound = '1';
         
-        // Event listener sur le burger menu (backup)
+        // Event listener sur le burger menu
         sidebarToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
